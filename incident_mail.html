@@ -2,159 +2,221 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Incident Notification</title>
+<title>🚨 INCIDENT ALERT</title>
 <style>
+/* RESET */
 body {
   margin: 0;
   padding: 0;
-  background: #f3f5f7;
+  background: #0f0f14;
   font-family: Segoe UI, Arial, sans-serif;
 }
-.container {
+
+/* MAIN CONTAINER */
+.wrapper {
   max-width: 920px;
-  margin: 24px auto;
+  margin: 30px auto;
   background: #ffffff;
-  border-radius: 10px;
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.35);
 }
 
-/* TOP ALERT BAR */
-.alert {
-  background: linear-gradient(90deg, #b0002a, #e01e7e);
+/* HERO */
+.hero {
+  background: linear-gradient(135deg, #b00020, #ff2f92);
   color: #fff;
-  padding: 22px 30px;
+  padding: 36px 40px;
 }
-.alert h1 {
+.hero h1 {
   margin: 0;
-  font-size: 26px;
+  font-size: 30px;
+  letter-spacing: 0.5px;
 }
-.alert span {
-  display: inline-block;
-  margin-top: 6px;
-  font-size: 14px;
+.hero p {
+  margin: 10px 0 0;
+  font-size: 15px;
   opacity: 0.9;
+}
+
+/* KPI STRIP */
+.kpi {
+  display: table;
+  width: 100%;
+  background: #111827;
+  color: #fff;
+}
+.kpi div {
+  display: table-cell;
+  padding: 18px;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+.kpi div:last-child {
+  border-right: none;
+}
+.kpi span {
+  display: block;
+  font-size: 12px;
+  opacity: 0.7;
+}
+.kpi strong {
+  font-size: 18px;
+  margin-top: 6px;
+  display: block;
 }
 
 /* SECTION */
 .section {
-  padding: 26px 30px;
+  padding: 32px 40px;
   border-bottom: 1px solid #eee;
 }
-.section-title {
-  font-size: 17px;
-  font-weight: 700;
-  margin-bottom: 14px;
-  color: #333;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.section h2 {
+  margin: 0 0 16px;
+  font-size: 18px;
+  color: #111;
+  border-left: 5px solid #e01e7e;
+  padding-left: 12px;
 }
 
-/* GRID */
-.grid {
+/* TABLE */
+.table {
   width: 100%;
   border-collapse: collapse;
 }
-.grid td {
+.table td {
   padding: 12px 10px;
   vertical-align: top;
 }
 .label {
-  width: 30%;
+  width: 28%;
   font-weight: 600;
   color: #555;
 }
 .value {
   color: #111;
+  font-size: 15px;
 }
 
 /* IMPACT BOX */
 .impact {
-  background: #fff4f6;
+  background: linear-gradient(135deg, #fff1f5, #ffe6ef);
   border-left: 6px solid #e01e7e;
-  padding: 16px 18px;
-  border-radius: 6px;
-  font-size: 15px;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #111;
 }
 
-/* TAGS */
-.tag {
+/* BADGES */
+.badge {
   display: inline-block;
-  padding: 5px 12px;
-  border-radius: 20px;
+  padding: 6px 16px;
+  border-radius: 30px;
   font-size: 13px;
   font-weight: 700;
+  margin-right: 8px;
 }
-.p1 { background:#ffe1e7; color:#b0002a; }
-.critical { background:#fff1cc; color:#a86a00; }
+.p1 { background:#b00020; color:#fff; }
+.p2 { background:#f57c00; color:#fff; }
+.p3 { background:#2e7d32; color:#fff; }
+
+/* TIMELINE */
+.timeline {
+  border-left: 3px solid #e01e7e;
+  padding-left: 20px;
+}
+.timeline p {
+  margin: 0 0 14px;
+  font-size: 14px;
+}
+.timeline strong {
+  color: #e01e7e;
+}
 
 /* FOOTER */
 .footer {
-  padding: 18px 30px;
-  background: #fafafa;
+  background: #0f0f14;
+  color: #aaa;
+  padding: 26px 40px;
   font-size: 12px;
-  color: #666;
+}
+.footer strong {
+  color: #fff;
 }
 </style>
 </head>
 
 <body>
-<div class="container">
 
-  <!-- ALERT HEADER -->
-  <div class="alert">
-    <h1>🔴 P1 INCIDENT – ACTION REQUIRED</h1>
-    <span>{{ title }}</span>
+<div class="wrapper">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>🚨 {{ priority }} INCIDENT ALERT</h1>
+    <p>{{ title }}</p>
   </div>
 
-  <!-- OVERVIEW -->
+  <!-- KPI STRIP -->
+  <div class="kpi">
+    <div>
+      <span>Priority</span>
+      <strong>{{ priority }}</strong>
+    </div>
+    <div>
+      <span>Severity</span>
+      <strong>{{ severity }}</strong>
+    </div>
+    <div>
+      <span>Status</span>
+      <strong>{{ status }}</strong>
+    </div>
+    <div>
+      <span>Case ID</span>
+      <strong>{{ case_id }}</strong>
+    </div>
+  </div>
+
+  <!-- SNAPSHOT -->
   <div class="section">
-    <div class="section-title">📌 Incident Snapshot</div>
-    <table class="grid">
-      <tr><td class="label">Case ID</td><td class="value">{{ case_id }}</td></tr>
+    <h2>📌 Incident Snapshot</h2>
+    <table class="table">
       <tr><td class="label">Start Time</td><td class="value">{{ start_time }}</td></tr>
       <tr><td class="label">End Time</td><td class="value">{{ end_time }}</td></tr>
-    </table>
-  </div>
-
-  <!-- IMPACT -->
-  <div class="section">
-    <div class="section-title">⚠️ Business Impact</div>
-    <div class="impact">
-      {{ description }}
-    </div>
-    <br>
-    <span class="tag p1">{{ priority }}</span>
-    <span class="tag critical">{{ severity }}</span>
-    <span class="tag">{{ status }}</span>
-  </div>
-
-  <!-- OWNERSHIP -->
-  <div class="section">
-    <div class="section-title">👥 Ownership & War Room</div>
-    <table class="grid">
       <tr><td class="label">Reported By</td><td class="value">{{ reported_by }}</td></tr>
       <tr><td class="label">Teams Engaged</td><td class="value">{{ teams }}</td></tr>
     </table>
   </div>
 
+  <!-- IMPACT -->
+  <div class="section">
+    <h2>🔥 Business Impact</h2>
+    <div class="impact">
+      {{ description }}
+    </div>
+    <br>
+    <span class="badge {{ priority | lower }}">{{ priority }}</span>
+    <span class="badge">{{ severity }}</span>
+  </div>
+
   <!-- INVESTIGATION -->
   <div class="section">
-    <div class="section-title">🔍 Investigation Status</div>
-    <table class="grid">
-      <tr><td class="label">Latest Update</td><td class="value">{{ latest_update }}</td></tr>
-      <tr><td class="label">RCA</td><td class="value">{{ rca }}</td></tr>
-      <tr><td class="label">Resolution</td><td class="value">{{ resolution }}</td></tr>
-    </table>
+    <h2>🧠 Investigation Timeline</h2>
+    <div class="timeline">
+      <p><strong>Latest Update:</strong> {{ latest_update }}</p>
+      <p><strong>RCA:</strong> {{ rca }}</p>
+      <p><strong>Resolution:</strong> {{ resolution }}</p>
+    </div>
   </div>
 
   <!-- FOOTER -->
   <div class="footer">
-    <b>BusinessNext | ITSM Command Center</b><br>
-    This is a system-generated P1 alert. Immediate attention is required.
+    <strong>BusinessNext | ITSM Command Center</strong><br>
+    This is a high-priority automated alert. Immediate action & coordination is expected.
   </div>
 
 </div>
+
 </body>
 </html>
