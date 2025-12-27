@@ -23,8 +23,6 @@ pipeline {
         text(name: 'RESOLUTION', defaultValue: 'In progress')
 
         string(name: 'BRIDGE_CALL_URL')
-        string(name: 'SLA_REMAINING')
-        choice(name: 'SLA_STATUS', choices: ['GREEN', 'AMBER', 'RED'])
     }
 
     stages {
@@ -78,9 +76,6 @@ pipeline {
                         '{{ latest_update }}'  : safe(LATEST_UPDATE),
                         '{{ rca }}'            : safe(RCA),
                         '{{ resolution }}'     : safe(RESOLUTION),
-
-                        '{{ sla_remaining }}'  : safe(SLA_REMAINING),
-                        '{{ sla_status }}'     : safe(SLA_STATUS),
 
                         '{{ bridge_section }}' : bridgeSection,
                         '{{ status_badge }}'   : statusBadge
