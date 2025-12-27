@@ -28,11 +28,24 @@ pipeline {
             steps {
                 script {
 
-                    // Helper: empty-safe value
+                    // ---------- Empty-safe helper ----------
                     def v = { val, defVal = '—' ->
                         (val != null && val.trim()) ? val : defVal
                     }
 
+                    // ---------- Priority based UI ----------
+                    def priorityClass = 'p3'
+                    def priorityEmoji = '🟢'
+
+                    if (PRIORITY == 'P1') {
+                        priorityClass = 'p1'
+                        priorityEmoji = '🔴'
+                    } else if (PRIORITY == 'P2') {
+                        priorityClass = 'p2'
+                        priorityEmoji = '🟠'
+                    }
+
+                    // ---------- Load & populate HTML ----------
                     def htmlTemplate = readFile 'incident_mail.html'
 
                     htmlTemplate = htmlTemplate
@@ -49,9 +62,12 @@ pipeline {
                         .replace('{{ latest_update }}', v(LATEST_UPDATE))
                         .replace('{{ rca }}', v(RCA))
                         .replace('{{ resolution }}', v(RESOLUTION))
+                        .replace('{{ priority_class }}', priorityClass)
+                        .replace('{{ priority_emoji }}', priorityEmoji)
 
+                    // ---------- Send Mail ----------
                     emailext(
-                        subject: "${PRIORITY} Incident | ${TITLE}",
+                        subject: "${priorityEmoji} ${PRIORITY} Incident | ${TITLE}",
                         body: htmlTemplate,
                         to: MAIL_TO,
                         cc: MAIL_CC,
