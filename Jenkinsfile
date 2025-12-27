@@ -24,30 +24,32 @@ pipeline {
     }
 
     stages {
-
         stage('Send Incident Notification') {
             steps {
                 script {
-                    // 📄 Load HTML template from repo
+
+                    // Helper: empty-safe value
+                    def v = { val, defVal = '—' ->
+                        (val != null && val.trim()) ? val : defVal
+                    }
+
                     def htmlTemplate = readFile 'incident_mail.html'
 
-                    // 🔁 Replace placeholders manually
                     htmlTemplate = htmlTemplate
-                        .replace('{{ title }}', TITLE)
-                        .replace('{{ start_time }}', START_TIME)
-                        .replace('{{ end_time }}', END_TIME)
-                        .replace('{{ case_id }}', CASE_ID)
-                        .replace('{{ description }}', DESCRIPTION)
+                        .replace('{{ title }}', v(TITLE))
+                        .replace('{{ start_time }}', v(START_TIME))
+                        .replace('{{ end_time }}', v(END_TIME, 'N/A'))
+                        .replace('{{ case_id }}', v(CASE_ID))
+                        .replace('{{ description }}', v(DESCRIPTION))
                         .replace('{{ priority }}', PRIORITY)
                         .replace('{{ severity }}', SEVERITY)
                         .replace('{{ status }}', STATUS)
-                        .replace('{{ reported_by }}', REPORTED_BY)
-                        .replace('{{ teams }}', TEAMS)
-                        .replace('{{ latest_update }}', LATEST_UPDATE)
-                        .replace('{{ rca }}', RCA)
-                        .replace('{{ resolution }}', RESOLUTION)
+                        .replace('{{ reported_by }}', v(REPORTED_BY))
+                        .replace('{{ teams }}', v(TEAMS))
+                        .replace('{{ latest_update }}', v(LATEST_UPDATE))
+                        .replace('{{ rca }}', v(RCA))
+                        .replace('{{ resolution }}', v(RESOLUTION))
 
-                    // ✉️ Send mail using Jenkins Email Extension
                     emailext(
                         subject: "${PRIORITY} Incident | ${TITLE}",
                         body: htmlTemplate,
