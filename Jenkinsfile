@@ -7,7 +7,7 @@ pipeline {
         string(name: 'TITLE', defaultValue: 'MY PROD | Unable to login')
         string(name: 'START_TIME')
         string(name: 'END_TIME', defaultValue: 'N/A')
-        string(name: 'AZURE_ID')
+        string(name: 'CASE_ID')
         string(name: 'DESCRIPTION')
         string(name: 'PRIORITY', defaultValue: '1')
         string(name: 'SEVERITY', defaultValue: 'Critical')
@@ -42,7 +42,7 @@ pipeline {
                   --title "${TITLE}" \
                   --start_time "${START_TIME}" \
                   --end_time "${END_TIME}" \
-                  --azure_id "${AZURE_ID}" \
+                  --case_id "${CASE_ID}" \
                   --description "${DESCRIPTION}" \
                   --priority "${PRIORITY}" \
                   --severity "${SEVERITY}" \
