@@ -2,215 +2,169 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>🚨 Incident Notification</title>
+<title>Incident Notification</title>
+
 <style>
 body {
-  margin: 0;
-  padding: 0;
-  background: #0f0f14;
   font-family: Segoe UI, Arial, sans-serif;
-}
-.wrapper {
-  max-width: 960px;
-  margin: 28px auto;
-  background: #ffffff;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 22px 60px rgba(0,0,0,0.35);
+  background: #f4f6f8;
+  padding: 20px;
 }
 
-/* BLINKING RIBBON */
-.ribbon {
-  background: #b00020;
-  color: #fff;
-  text-align: center;
-  padding: 12px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  animation: blink 1.2s infinite;
-}
-@keyframes blink {
-  50% { opacity: 0.4; }
+.container {
+  max-width: 1000px;
+  margin: auto;
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
 }
 
 /* HEADER */
 .header {
-  background: linear-gradient(135deg, #b00020, #e01e7e);
-  color: #fff;
-  padding: 30px 40px;
+  background: #e01e7e;
+  color: #ffffff;
+  padding: 20px 30px;
 }
 .header h1 {
   margin: 0;
-  font-size: 28px;
+  font-size: 22px;
 }
 .header p {
   margin-top: 6px;
-  font-size: 15px;
-  opacity: 0.9;
+  font-size: 14px;
+  opacity: 0.95;
 }
 
-/* SNAPSHOT BAR */
-.snapshot {
-  display: table;
-  width: 100%;
-  background: #111827;
-  color: #fff;
-}
-.snapshot div {
-  display: table-cell;
-  padding: 16px;
-  text-align: center;
-  border-right: 1px solid rgba(255,255,255,0.08);
-}
-.snapshot div:last-child { border-right: none; }
-.snapshot span {
-  font-size: 12px;
-  opacity: 0.7;
-}
-.snapshot strong {
-  display: block;
-  font-size: 17px;
-  margin-top: 4px;
-}
-
-/* SECTION */
-.section {
-  padding: 28px 40px;
-  border-bottom: 1px solid #eee;
-}
-.section h2 {
-  margin: 0 0 16px;
-  font-size: 18px;
-  border-left: 5px solid #e01e7e;
-  padding-left: 12px;
+/* INTRO TEXT */
+.intro {
+  padding: 18px 30px;
+  font-size: 14px;
+  line-height: 1.6;
+  background: #fafafa;
+  border-bottom: 1px solid #e5e5e5;
 }
 
 /* TABLE */
-.table {
+.table-wrapper {
+  padding: 20px 30px;
+}
+
+.table-title {
+  background: #fde6f1;
+  font-weight: bold;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+table {
   width: 100%;
   border-collapse: collapse;
-}
-.table td {
-  padding: 12px 10px;
-}
-.label {
-  width: 30%;
-  font-weight: 600;
-  color: #555;
-}
-.value {
-  color: #111;
+  font-size: 14px;
 }
 
-/* IMPACT BOX */
-.impact {
-  background: #fff1f5;
-  border-left: 6px solid #e01e7e;
-  padding: 20px;
-  border-radius: 10px;
-  font-size: 16px;
+th, td {
+  border: 1px solid #dcdcdc;
+  padding: 10px;
+  vertical-align: top;
 }
 
-/* SLA */
-.sla {
-  background: #fff8e1;
-  border-left: 6px solid #f9a825;
-  padding: 18px;
-  border-radius: 10px;
-}
-.sla strong {
-  font-size: 18px;
-}
-
-/* BRIDGE BUTTON */
-.bridge {
-  text-align: center;
-  margin-top: 22px;
-}
-.bridge a {
-  background: linear-gradient(135deg, #e01e7e, #b00020);
-  color: #fff;
-  padding: 14px 30px;
-  border-radius: 30px;
-  font-weight: 700;
-  text-decoration: none;
+th {
+  background: #fff1f7;
+  width: 22%;
+  text-align: left;
 }
 
 /* FOOTER */
 .footer {
-  background: #0f0f14;
-  color: #aaa;
-  padding: 24px 40px;
+  padding: 18px 30px;
   font-size: 12px;
+  color: #666;
+  background: #fafafa;
+  border-top: 1px solid #e5e5e5;
 }
-.footer strong { color: #fff; }
 </style>
 </head>
 
 <body>
 
-<div class="wrapper">
+<div class="container">
 
-  <div class="ribbon">🚨 {{ priority }} INCIDENT – IMMEDIATE ACTION REQUIRED 🚨</div>
-
+  <!-- HEADER -->
   <div class="header">
-    <h1>{{ priority }} INCIDENT ALERT</h1>
-    <p>{{ title }}</p>
+    <h1>{{ priority }} Incident Alert | {{ title }}</h1>
+    <p>Immediate attention required</p>
   </div>
 
-  <!-- SNAPSHOT -->
-  <div class="snapshot">
-    <div><span>Priority</span><strong>{{ priority }}</strong></div>
-    <div><span>Severity</span><strong>{{ severity }}</strong></div>
-    <div><span>Status</span><strong>{{ status }}</strong></div>
-    <div><span>Case ID</span><strong>{{ case_id }}</strong></div>
+  <!-- INTRO -->
+  <div class="intro">
+    Hi All,<br><br>
+    This is to inform you that we are experiencing a <b>{{ priority }}</b> issue with
+    <b>{{ title }}</b>. The details of the incident are outlined below:
   </div>
 
   <!-- INCIDENT DETAILS -->
-  <div class="section">
-    <h2>📌 Incident Details</h2>
-    <table class="table">
-      <tr><td class="label">Start Time</td><td class="value">{{ start_time }}</td></tr>
-      <tr><td class="label">End Time</td><td class="value">{{ end_time }}</td></tr>
-      <tr><td class="label">Reported By</td><td class="value">{{ reported_by }}</td></tr>
-      <tr><td class="label">Teams Involved</td><td class="value">{{ teams }}</td></tr>
+  <div class="table-wrapper">
+    <div class="table-title">Incident Details</div>
+    <table>
+      <tr>
+        <th>Incident Title</th>
+        <td>{{ title }}</td>
+        <th>Incident Start Time</th>
+        <td>{{ start_time }}</td>
+      </tr>
+      <tr>
+        <th>Case ID</th>
+        <td>{{ case_id }}</td>
+        <th>Incident End Time</th>
+        <td>{{ end_time }}</td>
+      </tr>
+      <tr>
+        <th>Incident Description</th>
+        <td colspan="3">{{ description }}</td>
+      </tr>
+    </table>
+
+    <br>
+
+    <div class="table-title">Incident Classification and Context</div>
+    <table>
+      <tr>
+        <th>Incident Priority</th>
+        <td>{{ priority }}</td>
+        <th>Incident Severity</th>
+        <td>{{ severity }}</td>
+      </tr>
+      <tr>
+        <th>Incident Status</th>
+        <td>{{ status }}</td>
+        <th>Reported By</th>
+        <td>{{ reported_by }}</td>
+      </tr>
+      <tr>
+        <th>Teams Involved</th>
+        <td colspan="3">{{ teams }}</td>
+      </tr>
+      <tr>
+        <th>Latest Update</th>
+        <td colspan="3">{{ latest_update }}</td>
+      </tr>
+      <tr>
+        <th>RCA</th>
+        <td colspan="3">{{ rca }}</td>
+      </tr>
+      <tr>
+        <th>Incident Resolution</th>
+        <td colspan="3">{{ resolution }}</td>
+      </tr>
     </table>
   </div>
 
-  <!-- BUSINESS IMPACT -->
-  <div class="section">
-    <h2>🔥 Business Impact</h2>
-    <div class="impact">
-      {{ description }}
-    </div>
-  </div>
-
-  <!-- SLA -->
-  <div class="section">
-    <h2>⏱️ SLA Countdown</h2>
-    <div class="sla">
-      SLA Time Remaining: <strong>{{ sla_remaining }}</strong><br>
-      SLA Status: <strong>{{ sla_status }}</strong>
-    </div>
-  </div>
-
-  <!-- INVESTIGATION -->
-  <div class="section">
-    <h2>🔍 Investigation & Resolution</h2>
-    <table class="table">
-      <tr><td class="label">Latest Update</td><td class="value">{{ latest_update }}</td></tr>
-      <tr><td class="label">RCA</td><td class="value">{{ rca }}</td></tr>
-      <tr><td class="label">Resolution</td><td class="value">{{ resolution }}</td></tr>
-    </table>
-
-    <div class="bridge">
-      <a href="{{ bridge_call_url }}" target="_blank">📞 JOIN BRIDGE CALL NOW</a>
-    </div>
-  </div>
-
+  <!-- FOOTER -->
   <div class="footer">
-    <strong>BusinessNext | ITSM Command Center</strong><br>
-    This is a system-generated critical incident alert.
+    Regards,<br>
+    <b>BusinessNext | ITSM Team</b><br>
+    <i>This is a system-generated notification.</i>
   </div>
 
 </div>
