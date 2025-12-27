@@ -21,10 +21,13 @@ body {
 
 /* HEADER */
 .header {
-  background: #E01E7E;
   color: #fff;
   padding: 20px 28px;
 }
+.p1 { background: #c6003d; }   /* 🔴 P1 */
+.p2 { background: #f57c00; }   /* 🟠 P2 */
+.p3 { background: #2e7d32; }   /* 🟢 P3 */
+
 .header h1 {
   margin: 0;
   font-size: 22px;
@@ -32,7 +35,7 @@ body {
 .header p {
   margin: 6px 0 0;
   font-size: 14px;
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 /* SECTION */
@@ -65,17 +68,6 @@ body {
   color: #222;
 }
 
-/* BADGES */
-.badge {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-}
-.p1 { background:#ffe6eb; color:#c6003d; }
-.critical { background:#fff1d6; color:#b26a00; }
-
 /* FOOTER */
 .footer {
   padding: 16px 28px;
@@ -90,8 +82,8 @@ body {
 <div class="wrapper">
 
   <!-- HEADER -->
-  <div class="header">
-    <h1>🚨 {{ priority }} Incident Notification</h1>
+  <div class="header {{ priority_class }}">
+    <h1>{{ priority_emoji }} {{ priority }} Incident Notification</h1>
     <p>{{ title }}</p>
   </div>
 
@@ -99,10 +91,10 @@ body {
   <div class="section">
     <div class="section-title">📌 Incident Overview</div>
     <table class="grid">
-      <tr><td class="label">Incident Title</td><td class="value">{{ title or '—' }}</td></tr>
-      <tr><td class="label">Case ID</td><td class="value">{{ case_id or '—' }}</td></tr>
-      <tr><td class="label">Start Time</td><td class="value">{{ start_time or '—' }}</td></tr>
-      <tr><td class="label">End Time</td><td class="value">{{ end_time or 'N/A' }}</td></tr>
+      <tr><td class="label">Incident Title</td><td class="value">{{ title }}</td></tr>
+      <tr><td class="label">Case ID</td><td class="value">{{ case_id }}</td></tr>
+      <tr><td class="label">Start Time</td><td class="value">{{ start_time }}</td></tr>
+      <tr><td class="label">End Time</td><td class="value">{{ end_time }}</td></tr>
     </table>
   </div>
 
@@ -110,16 +102,10 @@ body {
   <div class="section">
     <div class="section-title">⚠️ Impact & Classification</div>
     <table class="grid">
-      <tr>
-        <td class="label">Priority</td>
-        <td class="value"><span class="badge p1">{{ priority }}</span></td>
-      </tr>
-      <tr>
-        <td class="label">Severity</td>
-        <td class="value"><span class="badge critical">{{ severity }}</span></td>
-      </tr>
+      <tr><td class="label">Priority</td><td class="value">{{ priority }}</td></tr>
+      <tr><td class="label">Severity</td><td class="value">{{ severity }}</td></tr>
       <tr><td class="label">Status</td><td class="value">{{ status }}</td></tr>
-      <tr><td class="label">Description</td><td class="value">{{ description or '—' }}</td></tr>
+      <tr><td class="label">Description</td><td class="value">{{ description }}</td></tr>
     </table>
   </div>
 
@@ -136,7 +122,7 @@ body {
   <div class="section">
     <div class="section-title">🔍 Investigation Update</div>
     <table class="grid">
-      <tr><td class="label">Latest Update</td><td class="value">{{ latest_update or '—' }}</td></tr>
+      <tr><td class="label">Latest Update</td><td class="value">{{ latest_update }}</td></tr>
       <tr><td class="label">RCA</td><td class="value">{{ rca }}</td></tr>
       <tr><td class="label">Resolution</td><td class="value">{{ resolution }}</td></tr>
     </table>
