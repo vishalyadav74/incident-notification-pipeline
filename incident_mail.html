@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body {
+  font-family: Segoe UI, Arial, sans-serif;
+  background: #f4f6f8;
+}
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: #ffffff;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.header {
+  background: #E01E7E;
+  color: white;
+  padding: 16px 24px;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table th, .table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+.table th {
+  background: #fde6f1;
+  text-align: left;
+}
+.footer {
+  padding: 14px;
+  font-size: 12px;
+  color: #666;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <div class="header">
+    <h2>P{{ priority }} Incident Notification | {{ title }}</h2>
+  </div>
+
+  <table class="table">
+    <tr><th>Incident Title</th><td>{{ title }}</td></tr>
+    <tr><th>Incident Start Time</th><td>{{ start_time }}</td></tr>
+    <tr><th>Incident End Time</th><td>{{ end_time }}</td></tr>
+    <tr><th>Azure ID</th><td>{{ azure_id }}</td></tr>
+    <tr><th>Description</th><td>{{ description }}</td></tr>
+    <tr><th>Priority</th><td>{{ priority }}</td></tr>
+    <tr><th>Severity</th><td>{{ severity }}</td></tr>
+    <tr><th>Status</th><td>{{ status }}</td></tr>
+    <tr><th>Reported By</th><td>{{ reported_by }}</td></tr>
+    <tr><th>Teams Involved</th><td>{{ teams }}</td></tr>
+    <tr><th>Latest Update</th><td>{{ latest_update }}</td></tr>
+    <tr><th>RCA</th><td>{{ rca }}</td></tr>
+    <tr><th>Resolution</th><td>{{ resolution }}</td></tr>
+  </table>
+
+  <div class="footer">
+    Regards,<br>
+    <b>BusinessNext | ITSM Team</b>
+  </div>
+</div>
+</body>
+</html>
