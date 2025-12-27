@@ -28,9 +28,9 @@ pipeline {
             steps {
                 script {
 
-                    // ---------- Empty-safe helper ----------
-                    def v = { val, defVal = '—' ->
-                        (val != null && val.trim()) ? val : defVal
+                    // ---------- Safe value helper ----------
+                    def safe = { val, defVal = '—' ->
+                        (val != null && val.toString().trim()) ? val.toString() : defVal
                     }
 
                     // ---------- Priority based UI ----------
@@ -45,27 +45,25 @@ pipeline {
                         priorityEmoji = '🟠'
                     }
 
-                    // ---------- Load & populate HTML ----------
                     def htmlTemplate = readFile 'incident_mail.html'
 
                     htmlTemplate = htmlTemplate
-                        .replace('{{ title }}', v(TITLE))
-                        .replace('{{ start_time }}', v(START_TIME))
-                        .replace('{{ end_time }}', v(END_TIME, 'N/A'))
-                        .replace('{{ case_id }}', v(CASE_ID))
-                        .replace('{{ description }}', v(DESCRIPTION))
-                        .replace('{{ priority }}', PRIORITY)
-                        .replace('{{ severity }}', SEVERITY)
-                        .replace('{{ status }}', STATUS)
-                        .replace('{{ reported_by }}', v(REPORTED_BY))
-                        .replace('{{ teams }}', v(TEAMS))
-                        .replace('{{ latest_update }}', v(LATEST_UPDATE))
-                        .replace('{{ rca }}', v(RCA))
-                        .replace('{{ resolution }}', v(RESOLUTION))
-                        .replace('{{ priority_class }}', priorityClass)
-                        .replace('{{ priority_emoji }}', priorityEmoji)
+                        .replace('{{ title }}', safe(TITLE))
+                        .replace('{{ start_time }}', safe(START_TIME))
+                        .replace('{{ end_time }}', safe(END_TIME, 'N/A'))
+                        .replace('{{ case_id }}', safe(CASE_ID))
+                        .replace('{{ description }}', safe(DESCRIPTION))
+                        .replace('{{ priority }}', safe(PRIORITY))
+                        .replace('{{ severity }}', safe(SEVERITY))
+                        .replace('{{ status }}', safe(STATUS))
+                        .replace('{{ reported_by }}', safe(REPORTED_BY))
+                        .replace('{{ teams }}', safe(TEAMS))
+                        .replace('{{ latest_update }}', safe(LATEST_UPDATE))
+                        .replace('{{ rca }}', safe(RCA))
+                        .replace('{{ resolution }}', safe(RESOLUTION))
+                        .replace('{{ priority_class }}', safe(priorityClass))
+                        .replace('{{ priority_emoji }}', safe(priorityEmoji))
 
-                    // ---------- Send Mail ----------
                     emailext(
                         subject: "${priorityEmoji} ${PRIORITY} Incident | ${TITLE}",
                         body: htmlTemplate,
