@@ -2,69 +2,153 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<title>Incident Notification</title>
 <style>
 body {
-  font-family: Segoe UI, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
   background: #f4f6f8;
+  font-family: Segoe UI, Arial, sans-serif;
 }
-.container {
+.wrapper {
   max-width: 900px;
-  margin: auto;
+  margin: 20px auto;
   background: #ffffff;
-  border-radius: 6px;
+  border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
 }
+
+/* HEADER */
 .header {
   background: #E01E7E;
-  color: white;
-  padding: 16px 24px;
+  color: #fff;
+  padding: 20px 28px;
 }
-.table {
+.header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+.header p {
+  margin: 6px 0 0;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* SECTION */
+.section {
+  padding: 22px 28px;
+  border-bottom: 1px solid #eee;
+}
+.section-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+/* GRID */
+.grid {
   width: 100%;
   border-collapse: collapse;
 }
-.table th, .table td {
-  border: 1px solid #ddd;
-  padding: 10px;
+.grid td {
+  padding: 10px 8px;
+  vertical-align: top;
 }
-.table th {
-  background: #fde6f1;
-  text-align: left;
+.label {
+  width: 28%;
+  font-weight: 600;
+  color: #555;
 }
+.value {
+  color: #222;
+}
+
+/* BADGES */
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.p1 { background:#ffe6eb; color:#c6003d; }
+.critical { background:#fff1d6; color:#b26a00; }
+
+/* FOOTER */
 .footer {
-  padding: 14px;
+  padding: 16px 28px;
   font-size: 12px;
   color: #666;
+  background: #fafafa;
 }
 </style>
 </head>
 
 <body>
-<div class="container">
+<div class="wrapper">
+
+  <!-- HEADER -->
   <div class="header">
-    <h2>{{ priority }} Incident Notification | {{ title }}</h2>
+    <h1>🚨 {{ priority }} Incident Notification</h1>
+    <p>{{ title }}</p>
   </div>
 
-  <table class="table">
-    <tr><th>Incident Title</th><td>{{ title }}</td></tr>
-    <tr><th>Incident Start Time</th><td>{{ start_time }}</td></tr>
-    <tr><th>Incident End Time</th><td>{{ end_time }}</td></tr>
-    <tr><th>Case ID</th><td>{{ case_id }}</td></tr>
-    <tr><th>Description</th><td>{{ description }}</td></tr>
-    <tr><th>Priority</th><td>{{ priority }}</td></tr>
-    <tr><th>Severity</th><td>{{ severity }}</td></tr>
-    <tr><th>Status</th><td>{{ status }}</td></tr>
-    <tr><th>Reported By</th><td>{{ reported_by }}</td></tr>
-    <tr><th>Teams Involved</th><td>{{ teams }}</td></tr>
-    <tr><th>Latest Update</th><td>{{ latest_update }}</td></tr>
-    <tr><th>RCA</th><td>{{ rca }}</td></tr>
-    <tr><th>Resolution</th><td>{{ resolution }}</td></tr>
-  </table>
+  <!-- INCIDENT OVERVIEW -->
+  <div class="section">
+    <div class="section-title">📌 Incident Overview</div>
+    <table class="grid">
+      <tr><td class="label">Incident Title</td><td class="value">{{ title or '—' }}</td></tr>
+      <tr><td class="label">Case ID</td><td class="value">{{ case_id or '—' }}</td></tr>
+      <tr><td class="label">Start Time</td><td class="value">{{ start_time or '—' }}</td></tr>
+      <tr><td class="label">End Time</td><td class="value">{{ end_time or 'N/A' }}</td></tr>
+    </table>
+  </div>
 
+  <!-- IMPACT -->
+  <div class="section">
+    <div class="section-title">⚠️ Impact & Classification</div>
+    <table class="grid">
+      <tr>
+        <td class="label">Priority</td>
+        <td class="value"><span class="badge p1">{{ priority }}</span></td>
+      </tr>
+      <tr>
+        <td class="label">Severity</td>
+        <td class="value"><span class="badge critical">{{ severity }}</span></td>
+      </tr>
+      <tr><td class="label">Status</td><td class="value">{{ status }}</td></tr>
+      <tr><td class="label">Description</td><td class="value">{{ description or '—' }}</td></tr>
+    </table>
+  </div>
+
+  <!-- OWNERSHIP -->
+  <div class="section">
+    <div class="section-title">👥 Ownership</div>
+    <table class="grid">
+      <tr><td class="label">Reported By</td><td class="value">{{ reported_by }}</td></tr>
+      <tr><td class="label">Teams Involved</td><td class="value">{{ teams }}</td></tr>
+    </table>
+  </div>
+
+  <!-- INVESTIGATION -->
+  <div class="section">
+    <div class="section-title">🔍 Investigation Update</div>
+    <table class="grid">
+      <tr><td class="label">Latest Update</td><td class="value">{{ latest_update or '—' }}</td></tr>
+      <tr><td class="label">RCA</td><td class="value">{{ rca }}</td></tr>
+      <tr><td class="label">Resolution</td><td class="value">{{ resolution }}</td></tr>
+    </table>
+  </div>
+
+  <!-- FOOTER -->
   <div class="footer">
     Regards,<br>
-    <b>BusinessNext | ITSM Team</b>
+    <b>BusinessNext | ITSM Team</b><br>
+    <i>This is an automated notification</i>
   </div>
+
 </div>
 </body>
 </html>
