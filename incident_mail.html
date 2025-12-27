@@ -23,7 +23,7 @@ body {
 
 /* HEADER */
 .header {
-  background: linear-gradient(135deg, #b00020, #e01e7e);
+  background: #E01E7E;
   color: #ffffff;
   padding: 26px 34px;
 }
@@ -45,12 +45,12 @@ body {
   font-weight: 600;
 }
 .badge.open {
-  background: #fff3cd;
-  color: #92400e;
+  background: #fff1f7;
+  color: #7a003d;
 }
 .badge.resolved {
-  background: #dcfce7;
-  color: #166534;
+  background: #e6f7ee;
+  color: #14532d;
 }
 
 /* INTRO */
@@ -75,6 +75,7 @@ body {
   border-radius: 6px;
   margin-bottom: 12px;
   border: 1px solid #f5c2d8;
+  color: #7a003d;
 }
 
 table {
@@ -93,28 +94,43 @@ th, td {
 th {
   background: #fff1f7;
   width: 22%;
+  color: #4a0d2b;
 }
 
-/* BRIDGE BUTTON */
+/* CASE ID LINK */
+.case-link {
+  color: #E01E7E;
+  font-weight: 600;
+  text-decoration: none;
+}
+.case-link:hover {
+  text-decoration: underline;
+}
+
+/* BRIDGE BUTTON – BRIGHT & VISIBLE */
 .bridge-btn {
   display: inline-block;
-  background: linear-gradient(135deg, #e01e7e, #b00020);
-  color: #ffffff;
-  padding: 14px 28px;
+  background-color: #E01E7E;
+  color: #ffffff !important;
+  padding: 14px 34px;
   border-radius: 30px;
   text-decoration: none;
   font-weight: 700;
-  margin-top: 10px;
+  font-size: 14px;
+  margin-top: 14px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(224,30,126,0.4);
 }
 
 /* RESOLVED BOX */
 .resolved-box {
-  background: #ecfdf5;
+  background: #e6f7ee;
   border-left: 6px solid #22c55e;
   padding: 16px;
   border-radius: 6px;
   font-weight: 600;
   color: #14532d;
+  margin-top: 14px;
 }
 
 /* FOOTER */
@@ -157,7 +173,13 @@ th {
       </tr>
       <tr>
         <th>Case ID</th>
-        <td>{{ case_id }}</td>
+        <td>
+          <a class="case-link"
+             href="https://my.businessnext.com/app/businessnext/Home/Case?mdi=-1&caseId={{ case_id }}"
+             target="_blank">
+             {{ case_id }}
+          </a>
+        </td>
         <th>Incident End Time</th>
         <td>{{ end_time }}</td>
       </tr>
