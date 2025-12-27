@@ -32,12 +32,35 @@ pipeline {
             steps {
                 script {
 
-                    // ---- SAFE VALUE FUNCTION ----
-                    def safe = { v -> (v == null || v.toString().trim() == '') ? '—' : v.toString() }
+                    // ---------- SAFE VALUE ----------
+                    def safe = { v ->
+                        (v == null || v.toString().trim() == '') ? '—' : v.toString()
+                    }
+
+                    // ---------- STATUS BADGE ----------
+                    def statusBadge = '<span class="badge open">OPEN</span>'
+                    if (STATUS == 'Resolved') {
+                        statusBadge = '<span class="badge resolved">RESOLVED</span>'
+                    }
+
+                    // ---------- BRIDGE / RESOLVED SECTION ----------
+                    def bridgeSection = '''
+                        <a href="''' + safe(BRIDGE_CALL_URL) + '''" class="bridge-btn">
+                            📞 JOIN BRIDGE CALL
+                        </a>
+                    '''
+
+                    if (STATUS == 'Resolved') {
+                        bridgeSection = '''
+                        <div class="resolved-box">
+                            ✅ Incident has been resolved. Please review the resolution summary above.
+                        </div>
+                        '''
+                    }
 
                     def html = readFile 'incident_mail.html'
 
-                    // ---- MAP BASED REPLACEMENT (NO NPE EVER) ----
+                    // ---------- REPLACEMENTS ----------
                     def values = [
                         '{{ title }}'          : safe(TITLE),
                         '{{ start_time }}'     : safe(START_TIME),
@@ -56,9 +79,11 @@ pipeline {
                         '{{ rca }}'            : safe(RCA),
                         '{{ resolution }}'     : safe(RESOLUTION),
 
-                        '{{ bridge_call_url }}': safe(BRIDGE_CALL_URL),
                         '{{ sla_remaining }}'  : safe(SLA_REMAINING),
-                        '{{ sla_status }}'     : safe(SLA_STATUS)
+                        '{{ sla_status }}'     : safe(SLA_STATUS),
+
+                        '{{ bridge_section }}' : bridgeSection,
+                        '{{ status_badge }}'   : statusBadge
                     ]
 
                     values.each { k, v ->
