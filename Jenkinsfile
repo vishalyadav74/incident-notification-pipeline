@@ -28,11 +28,6 @@ pipeline {
             steps {
                 script {
 
-                    // ---------- Helper: null-safe string ----------
-                    def safe = { val, defVal = '—' ->
-                        return (val == null || val.toString().trim() == '') ? defVal : val.toString()
-                    }
-
                     // ---------- Priority UI ----------
                     def priorityClass = 'p3'
                     def priorityEmoji = '🟢'
@@ -45,34 +40,32 @@ pipeline {
                         priorityEmoji = '🟠'
                     }
 
-                    // ---------- Load HTML ----------
                     def htmlTemplate = readFile 'incident_mail.html'
 
-                    // ---------- Replacement map (NO NULL VALUES) ----------
-                    def replacements = [
-                        '{{ title }}'          : safe(TITLE),
-                        '{{ start_time }}'     : safe(START_TIME),
-                        '{{ end_time }}'       : safe(END_TIME, 'N/A'),
-                        '{{ case_id }}'        : safe(CASE_ID),
-                        '{{ description }}'    : safe(DESCRIPTION),
-                        '{{ priority }}'       : safe(PRIORITY),
-                        '{{ severity }}'       : safe(SEVERITY),
-                        '{{ status }}'         : safe(STATUS),
-                        '{{ reported_by }}'    : safe(REPORTED_BY),
-                        '{{ teams }}'          : safe(TEAMS),
-                        '{{ latest_update }}'  : safe(LATEST_UPDATE),
-                        '{{ rca }}'            : safe(RCA),
-                        '{{ resolution }}'     : safe(RESOLUTION),
-                        '{{ priority_class }}' : priorityClass,
-                        '{{ priority_emoji }}' : priorityEmoji
-                    ]
-
-                    // ---------- Apply replacements safely ----------
-                    replacements.each { key, value ->
-                        htmlTemplate = htmlTemplate.replace(key, value)
+                    // ---------- SAFE replace (NO NULL POSSIBLE) ----------
+                    def replaceSafe = { key, val ->
+                        htmlTemplate = htmlTemplate.replace(
+                            key,
+                            (val == null || val.toString().trim() == '') ? '—' : val.toString()
+                        )
                     }
 
-                    // ---------- Send Mail ----------
+                    replaceSafe('{{ title }}', TITLE)
+                    replaceSafe('{{ start_time }}', START_TIME)
+                    replaceSafe('{{ end_time }}', END_TIME ?: 'N/A')
+                    replaceSafe('{{ case_id }}', CASE_ID)
+                    replaceSafe('{{ description }}', DESCRIPTION)
+                    replaceSafe('{{ priority }}', PRIORITY)
+                    replaceSafe('{{ severity }}', SEVERITY)
+                    replaceSafe('{{ status }}', STATUS)
+                    replaceSafe('{{ reported_by }}', REPORTED_BY)
+                    replaceSafe('{{ teams }}', TEAMS)
+                    replaceSafe('{{ latest_update }}', LATEST_UPDATE)
+                    replaceSafe('{{ rca }}', RCA)
+                    replaceSafe('{{ resolution }}', RESOLUTION)
+                    replaceSafe('{{ priority_class }}', priorityClass)
+                    replaceSafe('{{ priority_emoji }}', priorityEmoji)
+
                     emailext(
                         subject: "${priorityEmoji} ${PRIORITY} Incident | ${TITLE}",
                         body: htmlTemplate,
