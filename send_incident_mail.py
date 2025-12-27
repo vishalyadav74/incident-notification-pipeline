@@ -5,13 +5,14 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from jinja2 import Template
 
-SMTP_SERVER = 'smtp.office365.com'
+SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
-SMTP_USER = 'incident@businessnext.com'
-
+SMTP_USER = "YOUR_GMAIL_ID@gmail.com"   # 👈 apna gmail id
 
 def send_mail(args, smtp_password):
-    # ✅ Safe absolute path (works in Jenkins always)
+    if not args.to.strip():
+        raise ValueError("MAIL_TO cannot be empty")
+
     base_dir = os.path.dirname(os.path.abspath(__file__))
     template_path = os.path.join(base_dir, "incident_mail.html")
 
@@ -39,21 +40,23 @@ def send_mail(args, smtp_password):
     msg["To"] = args.to
     msg["Cc"] = args.cc
     msg["Subject"] = f"P{args.priority} Incident | {args.title}"
-
     msg.attach(MIMEText(html, "html"))
 
-    recipients = args.to.split(",") + args.cc.split(",")
+    recipients = []
+    recipients.extend([r.strip() for r in args.to.split(",") if r.strip()])
+    if args.cc:
+        recipients.extend([r.strip() for r in args.cc.split(",") if r.strip()])
 
     server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+    server.ehlo()
     server.starttls()
+    server.ehlo()
     server.login(SMTP_USER, smtp_password)
     server.sendmail(SMTP_USER, recipients, msg.as_string())
     server.quit()
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-
     parser.add_argument("--to", required=True)
     parser.add_argument("--cc", default="")
     parser.add_argument("--title")
@@ -71,5 +74,4 @@ if __name__ == "__main__":
     parser.add_argument("--resolution")
 
     args = parser.parse_args()
-
     send_mail(args, os.environ["SMTP_PASSWORD"])
