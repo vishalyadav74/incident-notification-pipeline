@@ -7,27 +7,29 @@
 <style>
 body {
   font-family: Segoe UI, Arial, sans-serif;
-  background: #f4f6f8;
-  padding: 20px;
+  background: #f2f4f7;
+  padding: 24px;
+  color: #1f2937;
 }
 
 .container {
-  max-width: 1000px;
+  max-width: 1050px;
   margin: auto;
   background: #ffffff;
-  border-radius: 6px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  border-radius: 10px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  overflow: hidden;
 }
 
 /* HEADER */
 .header {
-  background: #e01e7e;
+  background: linear-gradient(135deg, #b00020, #e01e7e);
   color: #ffffff;
-  padding: 20px 30px;
+  padding: 26px 34px;
 }
 .header h1 {
   margin: 0;
-  font-size: 22px;
+  font-size: 24px;
 }
 .header p {
   margin-top: 6px;
@@ -35,53 +37,93 @@ body {
   opacity: 0.95;
 }
 
-/* INTRO TEXT */
+/* BADGE */
+.badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.badge.open {
+  background: #fff3cd;
+  color: #92400e;
+}
+.badge.resolved {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* INTRO */
 .intro {
-  padding: 18px 30px;
+  padding: 20px 34px;
+  background: #fafafa;
   font-size: 14px;
   line-height: 1.6;
-  background: #fafafa;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-/* TABLE */
+/* TABLE AREA */
 .table-wrapper {
-  padding: 20px 30px;
+  padding: 26px 34px;
 }
 
-.table-title {
+.section-title {
   background: #fde6f1;
-  font-weight: bold;
-  padding: 10px;
-  border: 1px solid #e0e0e0;
+  padding: 12px;
   text-align: center;
+  font-weight: 700;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  border: 1px solid #f5c2d8;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
+  margin-bottom: 22px;
 }
 
 th, td {
-  border: 1px solid #dcdcdc;
-  padding: 10px;
+  border: 1px solid #d1d5db;
+  padding: 12px;
   vertical-align: top;
 }
 
 th {
   background: #fff1f7;
   width: 22%;
-  text-align: left;
+}
+
+/* BRIDGE BUTTON */
+.bridge-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #e01e7e, #b00020);
+  color: #ffffff;
+  padding: 14px 28px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 700;
+  margin-top: 10px;
+}
+
+/* RESOLVED BOX */
+.resolved-box {
+  background: #ecfdf5;
+  border-left: 6px solid #22c55e;
+  padding: 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #14532d;
 }
 
 /* FOOTER */
 .footer {
-  padding: 18px 30px;
-  font-size: 12px;
-  color: #666;
+  padding: 20px 34px;
   background: #fafafa;
-  border-top: 1px solid #e5e5e5;
+  font-size: 12px;
+  color: #6b7280;
+  border-top: 1px solid #e5e7eb;
 }
 </style>
 </head>
@@ -93,19 +135,19 @@ th {
   <!-- HEADER -->
   <div class="header">
     <h1>{{ priority }} Incident Alert | {{ title }}</h1>
-    <p>Immediate attention required</p>
+    <p>Status: {{ status_badge }}</p>
   </div>
 
   <!-- INTRO -->
   <div class="intro">
     Hi All,<br><br>
     This is to inform you that we are experiencing a <b>{{ priority }}</b> issue with
-    <b>{{ title }}</b>. The details of the incident are outlined below:
+    <b>{{ title }}</b>. Please find the incident details below:
   </div>
 
   <!-- INCIDENT DETAILS -->
   <div class="table-wrapper">
-    <div class="table-title">Incident Details</div>
+    <div class="section-title">Incident Details</div>
     <table>
       <tr>
         <th>Incident Title</th>
@@ -120,23 +162,21 @@ th {
         <td>{{ end_time }}</td>
       </tr>
       <tr>
-        <th>Incident Description</th>
+        <th>Description</th>
         <td colspan="3">{{ description }}</td>
       </tr>
     </table>
 
-    <br>
-
-    <div class="table-title">Incident Classification and Context</div>
+    <div class="section-title">Incident Classification & Updates</div>
     <table>
       <tr>
-        <th>Incident Priority</th>
+        <th>Priority</th>
         <td>{{ priority }}</td>
-        <th>Incident Severity</th>
+        <th>Severity</th>
         <td>{{ severity }}</td>
       </tr>
       <tr>
-        <th>Incident Status</th>
+        <th>Status</th>
         <td>{{ status }}</td>
         <th>Reported By</th>
         <td>{{ reported_by }}</td>
@@ -154,17 +194,20 @@ th {
         <td colspan="3">{{ rca }}</td>
       </tr>
       <tr>
-        <th>Incident Resolution</th>
+        <th>Resolution</th>
         <td colspan="3">{{ resolution }}</td>
       </tr>
     </table>
+
+    <!-- DYNAMIC BRIDGE / RESOLVED -->
+    {{ bridge_section }}
+
   </div>
 
-  <!-- FOOTER -->
   <div class="footer">
     Regards,<br>
     <b>BusinessNext | ITSM Team</b><br>
-    <i>This is a system-generated notification.</i>
+    This is a system-generated incident notification.
   </div>
 
 </div>
