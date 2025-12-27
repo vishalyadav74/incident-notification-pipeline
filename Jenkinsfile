@@ -4,7 +4,7 @@ pipeline {
     parameters {
         string(name: 'MAIL_TO', description: 'To recipients (comma separated)')
         string(name: 'MAIL_CC', description: 'CC recipients (comma separated)')
-
+        string(name: 'BRIDGE_CALL_URL', description: 'Bridge call / Teams / Zoom link')
         string(name: 'TITLE', defaultValue: 'MY PROD | Unable to login')
         string(name: 'START_TIME')
         string(name: 'END_TIME', defaultValue: 'N/A')
@@ -65,6 +65,7 @@ pipeline {
                     replaceSafe('{{ resolution }}', RESOLUTION)
                     replaceSafe('{{ priority_class }}', priorityClass)
                     replaceSafe('{{ priority_emoji }}', priorityEmoji)
+                    replaceSafe('{{ bridge_call_url }}', BRIDGE_CALL_URL)
 
                     emailext(
                         subject: "${priorityEmoji} ${PRIORITY} Incident | ${TITLE}",
