@@ -16,7 +16,7 @@ def send_mail(args, smtp_password):
         title=args.title,
         start_time=args.start_time,
         end_time=args.end_time,
-        azure_id=args.azure_id,
+        case_id=args.case_id,
         description=args.description,
         priority=args.priority,
         severity=args.severity,
@@ -51,7 +51,7 @@ if __name__ == "__main__":
     parser.add_argument("--title")
     parser.add_argument("--start_time")
     parser.add_argument("--end_time")
-    parser.add_argument("--azure_id")
+    parser.add_argument("--case_id")
     parser.add_argument("--description")
     parser.add_argument("--priority")
     parser.add_argument("--severity")
