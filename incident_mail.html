@@ -7,47 +7,48 @@
 body {
   margin: 0;
   padding: 0;
-  background: #f4f6f8;
+  background: #f3f5f7;
   font-family: Segoe UI, Arial, sans-serif;
 }
-.wrapper {
-  max-width: 900px;
-  margin: 20px auto;
+.container {
+  max-width: 920px;
+  margin: 24px auto;
   background: #ffffff;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
 }
 
-/* HEADER */
-.header {
+/* TOP ALERT BAR */
+.alert {
+  background: linear-gradient(90deg, #b0002a, #e01e7e);
   color: #fff;
-  padding: 20px 28px;
+  padding: 22px 30px;
 }
-.p1 { background: #c6003d; }   /* 🔴 P1 */
-.p2 { background: #f57c00; }   /* 🟠 P2 */
-.p3 { background: #2e7d32; }   /* 🟢 P3 */
-
-.header h1 {
+.alert h1 {
   margin: 0;
-  font-size: 22px;
+  font-size: 26px;
 }
-.header p {
-  margin: 6px 0 0;
+.alert span {
+  display: inline-block;
+  margin-top: 6px;
   font-size: 14px;
-  opacity: 0.95;
+  opacity: 0.9;
 }
 
 /* SECTION */
 .section {
-  padding: 22px 28px;
+  padding: 26px 30px;
   border-bottom: 1px solid #eee;
 }
 .section-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 12px;
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 14px;
   color: #333;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 /* GRID */
@@ -56,42 +57,61 @@ body {
   border-collapse: collapse;
 }
 .grid td {
-  padding: 10px 8px;
+  padding: 12px 10px;
   vertical-align: top;
 }
 .label {
-  width: 28%;
+  width: 30%;
   font-weight: 600;
   color: #555;
 }
 .value {
-  color: #222;
+  color: #111;
 }
+
+/* IMPACT BOX */
+.impact {
+  background: #fff4f6;
+  border-left: 6px solid #e01e7e;
+  padding: 16px 18px;
+  border-radius: 6px;
+  font-size: 15px;
+}
+
+/* TAGS */
+.tag {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 700;
+}
+.p1 { background:#ffe1e7; color:#b0002a; }
+.critical { background:#fff1cc; color:#a86a00; }
 
 /* FOOTER */
 .footer {
-  padding: 16px 28px;
+  padding: 18px 30px;
+  background: #fafafa;
   font-size: 12px;
   color: #666;
-  background: #fafafa;
 }
 </style>
 </head>
 
 <body>
-<div class="wrapper">
+<div class="container">
 
-  <!-- HEADER -->
-  <div class="header {{ priority_class }}">
-    <h1>{{ priority_emoji }} {{ priority }} Incident Notification</h1>
-    <p>{{ title }}</p>
+  <!-- ALERT HEADER -->
+  <div class="alert">
+    <h1>🔴 P1 INCIDENT – ACTION REQUIRED</h1>
+    <span>{{ title }}</span>
   </div>
 
-  <!-- INCIDENT OVERVIEW -->
+  <!-- OVERVIEW -->
   <div class="section">
-    <div class="section-title">📌 Incident Overview</div>
+    <div class="section-title">📌 Incident Snapshot</div>
     <table class="grid">
-      <tr><td class="label">Incident Title</td><td class="value">{{ title }}</td></tr>
       <tr><td class="label">Case ID</td><td class="value">{{ case_id }}</td></tr>
       <tr><td class="label">Start Time</td><td class="value">{{ start_time }}</td></tr>
       <tr><td class="label">End Time</td><td class="value">{{ end_time }}</td></tr>
@@ -100,27 +120,28 @@ body {
 
   <!-- IMPACT -->
   <div class="section">
-    <div class="section-title">⚠️ Impact & Classification</div>
-    <table class="grid">
-      <tr><td class="label">Priority</td><td class="value">{{ priority }}</td></tr>
-      <tr><td class="label">Severity</td><td class="value">{{ severity }}</td></tr>
-      <tr><td class="label">Status</td><td class="value">{{ status }}</td></tr>
-      <tr><td class="label">Description</td><td class="value">{{ description }}</td></tr>
-    </table>
+    <div class="section-title">⚠️ Business Impact</div>
+    <div class="impact">
+      {{ description }}
+    </div>
+    <br>
+    <span class="tag p1">{{ priority }}</span>
+    <span class="tag critical">{{ severity }}</span>
+    <span class="tag">{{ status }}</span>
   </div>
 
   <!-- OWNERSHIP -->
   <div class="section">
-    <div class="section-title">👥 Ownership</div>
+    <div class="section-title">👥 Ownership & War Room</div>
     <table class="grid">
       <tr><td class="label">Reported By</td><td class="value">{{ reported_by }}</td></tr>
-      <tr><td class="label">Teams Involved</td><td class="value">{{ teams }}</td></tr>
+      <tr><td class="label">Teams Engaged</td><td class="value">{{ teams }}</td></tr>
     </table>
   </div>
 
   <!-- INVESTIGATION -->
   <div class="section">
-    <div class="section-title">🔍 Investigation Update</div>
+    <div class="section-title">🔍 Investigation Status</div>
     <table class="grid">
       <tr><td class="label">Latest Update</td><td class="value">{{ latest_update }}</td></tr>
       <tr><td class="label">RCA</td><td class="value">{{ rca }}</td></tr>
@@ -130,9 +151,8 @@ body {
 
   <!-- FOOTER -->
   <div class="footer">
-    Regards,<br>
-    <b>BusinessNext | ITSM Team</b><br>
-    <i>This is an automated notification</i>
+    <b>BusinessNext | ITSM Command Center</b><br>
+    This is a system-generated P1 alert. Immediate attention is required.
   </div>
 
 </div>
