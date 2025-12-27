@@ -1,5 +1,6 @@
 import argparse
 import smtplib
+import os
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from jinja2 import Template
@@ -8,8 +9,13 @@ SMTP_SERVER = 'smtp.office365.com'
 SMTP_PORT = 587
 SMTP_USER = 'incident@businessnext.com'
 
+
 def send_mail(args, smtp_password):
-    with open("templates/incident_mail.html") as f:
+    # ✅ Safe absolute path (works in Jenkins always)
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    template_path = os.path.join(base_dir, "incident_mail.html")
+
+    with open(template_path, "r", encoding="utf-8") as f:
         template = Template(f.read())
 
     html = template.render(
@@ -29,14 +35,14 @@ def send_mail(args, smtp_password):
     )
 
     msg = MIMEMultipart()
-    msg['From'] = SMTP_USER
-    msg['To'] = args.to
-    msg['Cc'] = args.cc
-    msg['Subject'] = f"P{args.priority} Incident | {args.title}"
+    msg["From"] = SMTP_USER
+    msg["To"] = args.to
+    msg["Cc"] = args.cc
+    msg["Subject"] = f"P{args.priority} Incident | {args.title}"
 
-    msg.attach(MIMEText(html, 'html'))
+    msg.attach(MIMEText(html, "html"))
 
-    recipients = args.to.split(',') + args.cc.split(',')
+    recipients = args.to.split(",") + args.cc.split(",")
 
     server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
     server.starttls()
@@ -44,8 +50,10 @@ def send_mail(args, smtp_password):
     server.sendmail(SMTP_USER, recipients, msg.as_string())
     server.quit()
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+
     parser.add_argument("--to", required=True)
     parser.add_argument("--cc", default="")
     parser.add_argument("--title")
@@ -63,5 +71,5 @@ if __name__ == "__main__":
     parser.add_argument("--resolution")
 
     args = parser.parse_args()
-    import os
+
     send_mail(args, os.environ["SMTP_PASSWORD"])
