@@ -28,12 +28,12 @@ pipeline {
             steps {
                 script {
 
-                    // ---------- Safe value helper ----------
+                    // ---------- Helper: null-safe string ----------
                     def safe = { val, defVal = '—' ->
-                        (val != null && val.toString().trim()) ? val.toString() : defVal
+                        return (val == null || val.toString().trim() == '') ? defVal : val.toString()
                     }
 
-                    // ---------- Priority based UI ----------
+                    // ---------- Priority UI ----------
                     def priorityClass = 'p3'
                     def priorityEmoji = '🟢'
 
@@ -45,25 +45,34 @@ pipeline {
                         priorityEmoji = '🟠'
                     }
 
+                    // ---------- Load HTML ----------
                     def htmlTemplate = readFile 'incident_mail.html'
 
-                    htmlTemplate = htmlTemplate
-                        .replace('{{ title }}', safe(TITLE))
-                        .replace('{{ start_time }}', safe(START_TIME))
-                        .replace('{{ end_time }}', safe(END_TIME, 'N/A'))
-                        .replace('{{ case_id }}', safe(CASE_ID))
-                        .replace('{{ description }}', safe(DESCRIPTION))
-                        .replace('{{ priority }}', safe(PRIORITY))
-                        .replace('{{ severity }}', safe(SEVERITY))
-                        .replace('{{ status }}', safe(STATUS))
-                        .replace('{{ reported_by }}', safe(REPORTED_BY))
-                        .replace('{{ teams }}', safe(TEAMS))
-                        .replace('{{ latest_update }}', safe(LATEST_UPDATE))
-                        .replace('{{ rca }}', safe(RCA))
-                        .replace('{{ resolution }}', safe(RESOLUTION))
-                        .replace('{{ priority_class }}', safe(priorityClass))
-                        .replace('{{ priority_emoji }}', safe(priorityEmoji))
+                    // ---------- Replacement map (NO NULL VALUES) ----------
+                    def replacements = [
+                        '{{ title }}'          : safe(TITLE),
+                        '{{ start_time }}'     : safe(START_TIME),
+                        '{{ end_time }}'       : safe(END_TIME, 'N/A'),
+                        '{{ case_id }}'        : safe(CASE_ID),
+                        '{{ description }}'    : safe(DESCRIPTION),
+                        '{{ priority }}'       : safe(PRIORITY),
+                        '{{ severity }}'       : safe(SEVERITY),
+                        '{{ status }}'         : safe(STATUS),
+                        '{{ reported_by }}'    : safe(REPORTED_BY),
+                        '{{ teams }}'          : safe(TEAMS),
+                        '{{ latest_update }}'  : safe(LATEST_UPDATE),
+                        '{{ rca }}'            : safe(RCA),
+                        '{{ resolution }}'     : safe(RESOLUTION),
+                        '{{ priority_class }}' : priorityClass,
+                        '{{ priority_emoji }}' : priorityEmoji
+                    ]
 
+                    // ---------- Apply replacements safely ----------
+                    replacements.each { key, value ->
+                        htmlTemplate = htmlTemplate.replace(key, value)
+                    }
+
+                    // ---------- Send Mail ----------
                     emailext(
                         subject: "${priorityEmoji} ${PRIORITY} Incident | ${TITLE}",
                         body: htmlTemplate,
