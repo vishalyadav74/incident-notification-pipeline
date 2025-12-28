@@ -35,7 +35,6 @@ body {
 .header p {
   margin-top: 6px;
   font-size: 14px;
-  opacity: 0.95;
 }
 
 /* INTRO */
@@ -43,7 +42,6 @@ body {
   padding: 20px 36px;
   background: #f8fafc;
   font-size: 14px;
-  line-height: 1.6;
   border-bottom: 1px solid #e2e8f0;
 }
 
@@ -60,7 +58,6 @@ body {
   border-radius: 6px;
   margin-bottom: 14px;
   border: 1px solid #cbd5e1;
-  color: #0f172a;
 }
 
 table {
@@ -88,39 +85,24 @@ th {
   text-decoration: none;
 }
 
-/* BUTTON BASE */
-.bridge-btn {
+/* PILL BUTTON */
+.pill-btn {
   display: inline-block;
-  padding: 14px 36px;
-  border-radius: 30px;
-  text-decoration: none;
+  margin-top: 14px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  font-size: 12px;
   font-weight: 700;
-  font-size: 14px;
-  margin-top: 16px;
   color: #ffffff !important;
+  text-decoration: none;
 }
 
-/* RED (DEFAULT) */
-.btn-danger {
-  background-color: #E01E7E;
-  box-shadow: 0 6px 14px rgba(224,30,126,0.45);
+.pill-danger {
+  background: #E01E7E;
 }
 
-/* GREEN (RESOLVED) */
-.btn-success {
-  background-color: #16a34a;
-  box-shadow: 0 6px 14px rgba(22,163,74,0.45);
-}
-
-/* RESOLVED BOX */
-.resolved-box {
-  background: #ecfdf5;
-  border-left: 6px solid #22c55e;
-  padding: 16px;
-  border-radius: 6px;
-  font-weight: 600;
-  color: #14532d;
-  margin-top: 18px;
+.pill-success {
+  background: #22c55e;
 }
 
 /* FOOTER */
@@ -149,74 +131,4 @@ th {
     <b>{{ title }}</b>. Please find the incident details below:
   </div>
 
-  <div class="table-wrapper">
-
-    <div class="section-title">Incident Details</div>
-    <table>
-      <tr>
-        <th>Incident Title</th>
-        <td>{{ title }}</td>
-        <th>Incident Start Time</th>
-        <td>{{ start_time }}</td>
-      </tr>
-      <tr>
-        <th>Case ID</th>
-        <td>
-          <a class="case-link"
-             href="https://my.businessnext.com/app/businessnext/Home/Case?mdi=-1&caseId={{ case_id }}"
-             target="_blank">{{ case_id }}</a>
-        </td>
-        <th>Incident End Time</th>
-        <td>{{ end_time }}</td>
-      </tr>
-      <tr>
-        <th>Description</th>
-        <td colspan="3">{{ description }}</td>
-      </tr>
-    </table>
-
-    <div class="section-title">Incident Classification & Updates</div>
-    <table>
-      <tr>
-        <th>Priority</th>
-        <td>{{ priority }}</td>
-        <th>Severity</th>
-        <td>{{ severity }}</td>
-      </tr>
-      <tr>
-        <th>Status</th>
-        <td>{{ status }}</td>
-        <th>Reported By</th>
-        <td>{{ reported_by }}</td>
-      </tr>
-      <tr>
-        <th>Teams Involved</th>
-        <td colspan="3">{{ teams }}</td>
-      </tr>
-      <tr>
-        <th>Latest Update</th>
-        <td colspan="3">{{ latest_update }}</td>
-      </tr>
-      <tr>
-        <th>RCA</th>
-        <td colspan="3">{{ rca }}</td>
-      </tr>
-      <tr>
-        <th>Resolution</th>
-        <td colspan="3">{{ resolution }}</td>
-      </tr>
-    </table>
-
-    {{ bridge_section }}
-
-  </div>
-
-  <div class="footer">
-    Regards,<br>
-    <b>BusinessNext | ITSM Team</b>
-  </div>
-
-</div>
-
-</body>
-</html>
+  <div class
