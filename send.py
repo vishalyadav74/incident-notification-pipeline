@@ -8,7 +8,7 @@ def send_email(subject, body_html, to_list, cc_list=None):
     smtp_server = 'smtp.office365.com'
     smtp_port = 587
     smtp_user = 'incident@businessnext.com'
-    smtp_password = 'password'   # 🔴 PROD me Jenkins credential use karna
+    smtp_password = 'btxnzsrnjgjfjpqf'   # 🔴 PROD me Jenkins credential use karna
 
     msg = MIMEMultipart('alternative')
     msg['From'] = smtp_user
