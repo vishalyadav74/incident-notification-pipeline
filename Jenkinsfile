@@ -52,9 +52,11 @@ pipeline {
                     }
 
                     /* ---------- STATUS BADGE ---------- */
-                    def statusBadge = (STATUS == 'Resolved')
-                        ? '<span style="background:#22c55e;color:#fff;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700">RESOLVED</span>'
-                        : '<span style="background:#E01E7E;color:#fff;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700">OPEN</span>'
+                    /* ---------- STATUS BADGE ---------- */
+def statusBadge = (STATUS == 'Resolved')
+    ? '<span class="status-pill status-resolved">RESOLVED</span>'
+    : '<span class="status-pill status-open">OPEN</span>'
+
 
                     /* ---------- BRIDGE SECTION ---------- */
                     def bridgeSection = ''
