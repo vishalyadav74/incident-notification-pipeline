@@ -1,122 +1,200 @@
-pipeline {
-    agent any
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Incident Notification</title>
 
-    parameters {
-        string(name: 'MAIL_TO')
-        string(name: 'MAIL_CC')
-
-        string(name: 'TITLE', defaultValue: 'MY PROD | Unable to login')
-        string(name: 'START_TIME')
-        string(name: 'END_TIME', defaultValue: 'N/A')
-        string(name: 'CASE_ID')
-        string(name: 'DESCRIPTION')
-
-        choice(name: 'PRIORITY', choices: ['P1', 'P2', 'P3'])
-        choice(name: 'SEVERITY', choices: ['Critical', 'High', 'Medium', 'Low'])
-        choice(name: 'STATUS', choices: ['In Analysis', 'Identified', 'Monitoring', 'Resolved'])
-
-        string(name: 'REPORTED_BY', defaultValue: 'BizTech')
-        string(name: 'TEAMS', defaultValue: 'ITSM, Cloud, BizTech')
-
-        text(name: 'LATEST_UPDATE')
-        text(name: 'RCA', defaultValue: 'Under investigation')
-        text(name: 'RESOLUTION', defaultValue: 'In progress')
-
-        string(name: 'BRIDGE_CALL_URL')
-    }
-
-    stages {
-        stage('Send Incident Notification') {
-            steps {
-                script {
-
-                    def safe = { v -> (v == null || v.toString().trim() == '') ? '—' : v.toString() }
-
-                    /* INTRO MESSAGE */
-                    def introMessage = """
-                    Hi All,<br><br>
-                    This is to inform you that we are experiencing a <b>${PRIORITY}</b> issue with
-                    <b>${TITLE}</b> in the Production environment. Please find the incident details below.
-                    """
-
-                    if (STATUS == 'Resolved') {
-                        introMessage = """
-                        Hi All,<br><br>
-                        This is to bring to your kind attention that the <b>${PRIORITY}</b> issue for
-                        <b>${TITLE}</b> in the Production environment has been <b>resolved</b> now.
-                        Please find the incident details below.
-                        """
-                    }
-
-                    /* STATUS BADGE */
-                    def statusBadge = (STATUS == 'Resolved')
-                        ? '<span class="status-pill status-resolved">RESOLVED</span>'
-                        : '<span class="status-pill status-open">OPEN</span>'
-
-                    /* JOIN BRIDGE BUTTON */
-                    def bridgeSection = ''
-                    if (STATUS != 'Resolved' && BRIDGE_CALL_URL?.trim()) {
-                        bridgeSection = """
-                        <div style="margin-top:20px;">
-                          <a href="${safe(BRIDGE_CALL_URL)}"
-                             target="_blank"
-                             style="
-                               display:inline-block;
-                               background:#b91c1c;
-                               color:#ffffff;
-                               padding:12px 28px;
-                               border-radius:999px;
-                               font-size:14px;
-                               font-weight:700;
-                               text-decoration:none;
-                               box-shadow:0 6px 14px rgba(185,28,28,0.45);
-                             ">
-                             📞 JOIN BRIDGE CALL
-                          </a>
-                        </div>
-                        """
-                    }
-
-                    def mailSubject = (STATUS == 'Resolved')
-                        ? "RESOLVED | ${PRIORITY} | ${TITLE}"
-                        : "INCIDENT | ${PRIORITY} | ${TITLE}"
-
-                    /* READ + REPLACE TEMPLATE */
-                    def html = readFile 'incident_mail.html'
-
-                    def values = [
-                        '{{ title }}'         : safe(TITLE),
-                        '{{ start_time }}'    : safe(START_TIME),
-                        '{{ end_time }}'      : safe(END_TIME),
-                        '{{ case_id }}'       : safe(CASE_ID),
-                        '{{ description }}'   : safe(DESCRIPTION),
-                        '{{ priority }}'      : safe(PRIORITY),
-                        '{{ severity }}'      : safe(SEVERITY),
-                        '{{ status }}'        : safe(STATUS),
-                        '{{ reported_by }}'   : safe(REPORTED_BY),
-                        '{{ teams }}'         : safe(TEAMS),
-                        '{{ latest_update }}' : safe(LATEST_UPDATE),
-                        '{{ rca }}'           : safe(RCA),
-                        '{{ resolution }}'    : safe(RESOLUTION),
-                        '{{ status_badge }}'  : statusBadge,
-                        '{{ intro_message }}' : introMessage,
-                        '{{ bridge_section }}': bridgeSection
-                    ]
-
-                    values.each { k, v -> html = html.replace(k, v) }
-
-                    /* ✅ WRITE FINAL HTML */
-                    writeFile file: 'final_mail.html', text: html
-
-                    sh """
-                      python3 send.py \
-                        --subject "${mailSubject}" \
-                        --to "${MAIL_TO}" \
-                        --cc "${MAIL_CC}" \
-                        --body final_mail.html
-                    """
-                }
-            }
-        }
-    }
+<style>
+body {
+  font-family: Segoe UI, Arial, sans-serif;
+  background: #f1f5f9;
+  padding: 24px;
+  color: #0f172a;
 }
+
+.container {
+  max-width: 1050px;
+  margin: auto;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+  overflow: hidden;
+}
+
+/* HEADER */
+.header {
+  background: #E01E7E;
+  color: #ffffff;
+  padding: 28px 36px;
+}
+.header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+.header p {
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+/* INTRO */
+.intro {
+  padding: 20px 36px;
+  background: #f8fafc;
+  font-size: 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* CONTENT */
+.table-wrapper {
+  padding: 26px 36px;
+}
+
+.section-title {
+  background: #f1f5f9;
+  padding: 12px;
+  text-align: center;
+  font-weight: 700;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  border: 1px solid #cbd5e1;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-bottom: 26px;
+}
+
+th, td {
+  border: 1px solid #cbd5e1;
+  padding: 12px;
+}
+
+th {
+  background: #e5e7eb;
+  width: 22%;
+  font-weight: 600;
+}
+
+/* STATUS PILL */
+.status-pill {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+}
+.status-open { background:#b91D1D; }
+.status-resolved { background:#16a34a; }
+
+/* CASE LINK */
+.case-link {
+  color: #E01E7E;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* FOOTER */
+.footer {
+  padding: 20px 36px;
+  background: #f8fafc;
+  font-size: 12px;
+  color: #475569;
+  border-top: 1px solid #e2e8f0;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>{{ priority }} Incident Alert | {{ title }}</h1>
+    <p>Status: {{ status_badge }}</p>
+  </div>
+
+  <div class="intro">
+    {{ intro_message }}
+  </div>
+
+  <div class="table-wrapper">
+
+    <div class="section-title">Incident Details</div>
+    <table>
+      <tr>
+        <th>Incident Title</th>
+        <td>{{ title }}</td>
+        <th>Incident Start Time</th>
+        <td>{{ start_time }}</td>
+      </tr>
+      <tr>
+        <th>Case ID</th>
+        <td>
+          <a class="case-link"
+             href="https://my.businessnext.com/app/businessnext/Home/Case?mdi=-1&caseId={{ case_id }}"
+             target="_blank">{{ case_id }}</a>
+        </td>
+        <th>Incident End Time</th>
+        <td>{{ end_time }}</td>
+      </tr>
+      <tr>
+        <th>Description</th>
+        <td colspan="3">{{ description }}</td>
+      </tr>
+    </table>
+
+    <div class="section-title">Incident Classification & Updates</div>
+    <table>
+      <tr>
+        <th>Priority</th>
+        <td>{{ priority }}</td>
+        <th>Severity</th>
+        <td>{{ severity }}</td>
+      </tr>
+      <tr>
+        <th>Status</th>
+        <td>{{ status }}</td>
+        <th>Reported By</th>
+        <td>{{ reported_by }}</td>
+      </tr>
+      <tr>
+        <th>Teams Involved</th>
+        <td colspan="3">{{ teams }}</td>
+      </tr>
+      <tr>
+        <th>Latest Update</th>
+        <td colspan="3">{{ latest_update }}</td>
+      </tr>
+      <tr>
+        <th>RCA</th>
+        <td colspan="3">{{ rca }}</td>
+      </tr>
+      <tr>
+        <th>Resolution</th>
+        <td colspan="3">{{ resolution }}</td>
+      </tr>
+    </table>
+
+    {{ bridge_section }}
+
+  </div>
+
+  <div class="footer">
+    Regards,<br>
+    <b>BusinessNext | ITSM Team</b><br><br>
+
+    <!-- LOGO -->
+    <img src="cid:businessnext_logo"
+         alt="BusinessNext Logo"
+         style="height:36px;">
+
+    <br><br>
+    This is a system generated notification.
+  </div>
+
+</div>
+</body>
+</html>
