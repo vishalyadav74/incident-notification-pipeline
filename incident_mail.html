@@ -7,9 +7,9 @@
 <style>
 body {
   font-family: Segoe UI, Arial, sans-serif;
-  background: #f2f4f7;
+  background: #f1f5f9;
   padding: 24px;
-  color: #1f2937;
+  color: #0f172a;
 }
 
 .container {
@@ -17,19 +17,20 @@ body {
   margin: auto;
   background: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
   overflow: hidden;
 }
 
-/* HEADER */
+/* ================= HEADER ================= */
 .header {
   background: #E01E7E;
   color: #ffffff;
-  padding: 26px 34px;
+  padding: 28px 36px;
 }
 .header h1 {
   margin: 0;
   font-size: 24px;
+  font-weight: 700;
 }
 .header p {
   margin-top: 6px;
@@ -37,67 +38,59 @@ body {
   opacity: 0.95;
 }
 
-/* BADGE */
-.badge {
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-}
-.badge.open {
-  background: #fff1f7;
-  color: #7a003d;
-}
-.badge.resolved {
-  background: #e6f7ee;
-  color: #14532d;
-}
-
-/* INTRO */
+/* ================= INTRO ================= */
 .intro {
-  padding: 20px 34px;
-  background: #fafafa;
+  padding: 20px 36px;
+  background: #f8fafc;
   font-size: 14px;
   line-height: 1.6;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e2e8f0;
 }
 
-/* TABLE AREA */
+/* ================= CONTENT ================= */
 .table-wrapper {
-  padding: 26px 34px;
+  padding: 26px 36px;
 }
 
+/* SECTION TITLE */
 .section-title {
-  background: #fde6f1;
+  background: #f1f5f9;
   padding: 12px;
   text-align: center;
   font-weight: 700;
   border-radius: 6px;
-  margin-bottom: 12px;
-  border: 1px solid #f5c2d8;
-  color: #7a003d;
+  margin-bottom: 14px;
+  border: 1px solid #cbd5e1;
+  color: #0f172a;
+  letter-spacing: 0.4px;
 }
 
+/* TABLE */
 table {
   width: 100%;
   border-collapse: collapse;
   font-size: 14px;
-  margin-bottom: 22px;
+  margin-bottom: 26px;
 }
 
 th, td {
-  border: 1px solid #d1d5db;
+  border: 1px solid #cbd5e1;
   padding: 12px;
   vertical-align: top;
 }
 
 th {
-  background: #fff1f7;
+  background: #e5e7eb;
   width: 22%;
-  color: #4a0d2b;
+  color: #111827;
+  font-weight: 600;
 }
 
-/* CASE ID LINK */
+td {
+  background: #ffffff;
+}
+
+/* CASE LINK */
 .case-link {
   color: #E01E7E;
   font-weight: 600;
@@ -107,39 +100,39 @@ th {
   text-decoration: underline;
 }
 
-/* BRIDGE BUTTON – BRIGHT & VISIBLE */
+/* ================= BUTTON ================= */
 .bridge-btn {
   display: inline-block;
   background-color: #E01E7E;
   color: #ffffff !important;
-  padding: 14px 34px;
+  padding: 14px 36px;
   border-radius: 30px;
   text-decoration: none;
   font-weight: 700;
   font-size: 14px;
-  margin-top: 14px;
-  border: 2px solid #ffffff;
-  box-shadow: 0 4px 12px rgba(224,30,126,0.4);
+  margin-top: 16px;
+  border: none;
+  box-shadow: 0 6px 14px rgba(224,30,126,0.45);
 }
 
-/* RESOLVED BOX */
+/* ================= RESOLVED BOX ================= */
 .resolved-box {
-  background: #e6f7ee;
+  background: #ecfdf5;
   border-left: 6px solid #22c55e;
   padding: 16px;
   border-radius: 6px;
   font-weight: 600;
   color: #14532d;
-  margin-top: 14px;
+  margin-top: 18px;
 }
 
-/* FOOTER */
+/* ================= FOOTER ================= */
 .footer {
-  padding: 20px 34px;
-  background: #fafafa;
+  padding: 20px 36px;
+  background: #f8fafc;
   font-size: 12px;
-  color: #6b7280;
-  border-top: 1px solid #e5e7eb;
+  color: #475569;
+  border-top: 1px solid #e2e8f0;
 }
 </style>
 </head>
@@ -163,6 +156,7 @@ th {
 
   <!-- INCIDENT DETAILS -->
   <div class="table-wrapper">
+
     <div class="section-title">Incident Details</div>
     <table>
       <tr>
@@ -177,7 +171,7 @@ th {
           <a class="case-link"
              href="https://my.businessnext.com/app/businessnext/Home/Case?mdi=-1&caseId={{ case_id }}"
              target="_blank">
-             {{ case_id }}
+            {{ case_id }}
           </a>
         </td>
         <th>Incident End Time</th>
