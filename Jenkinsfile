@@ -30,46 +30,48 @@ pipeline {
             steps {
                 script {
 
-                    def safe = { v -> (v == null || v.toString().trim() == '') ? '—' : v.toString() }
+                    def safe = { v ->
+                        (v == null || v.toString().trim() == '') ? '—' : v.toString()
+                    }
 
-                    // STATUS BADGE (HEADER)
+                    // STATUS BADGE
                     def statusBadge = (STATUS == 'Resolved')
                         ? '<span style="background:#22c55e;color:#fff;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700">RESOLVED</span>'
                         : '<span style="background:#E01E7E;color:#fff;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700">OPEN</span>'
 
-                    // PILL BUTTON COLOR
-                    def pillClass = (STATUS == 'Resolved') ? 'pill-success' : 'pill-danger'
-
-                    // BRIDGE BUTTON (ALWAYS VISIBLE)
-                    def bridgeSection = '''
-                        <a href="''' + safe(BRIDGE_CALL_URL) + '''"
-                           class="pill-btn ''' + pillClass + '''"
-                           target="_blank">
-                           JOIN BRIDGE CALL
-                        </a>
-                    '''
+                    // 👉 JOIN BRIDGE BUTTON ONLY IF NOT RESOLVED
+                    def bridgeSection = ''
+                    if (STATUS != 'Resolved') {
+                        bridgeSection = '''
+                          <a href="''' + safe(BRIDGE_CALL_URL) + '''"
+                             class="pill-btn pill-danger"
+                             target="_blank">
+                             📞 JOIN BRIDGE CALL
+                          </a>
+                        '''
+                    }
 
                     def html = readFile 'incident_mail.html'
 
                     def values = [
-                        '{{ title }}'         : safe(TITLE),
-                        '{{ start_time }}'    : safe(START_TIME),
-                        '{{ end_time }}'      : safe(END_TIME),
-                        '{{ case_id }}'       : safe(CASE_ID),
-                        '{{ description }}'   : safe(DESCRIPTION),
+                        '{{ title }}'        : safe(TITLE),
+                        '{{ start_time }}'   : safe(START_TIME),
+                        '{{ end_time }}'     : safe(END_TIME),
+                        '{{ case_id }}'      : safe(CASE_ID),
+                        '{{ description }}'  : safe(DESCRIPTION),
 
-                        '{{ priority }}'      : safe(PRIORITY),
-                        '{{ severity }}'      : safe(SEVERITY),
-                        '{{ status }}'        : safe(STATUS),
+                        '{{ priority }}'     : safe(PRIORITY),
+                        '{{ severity }}'     : safe(SEVERITY),
+                        '{{ status }}'       : safe(STATUS),
 
-                        '{{ reported_by }}'   : safe(REPORTED_BY),
-                        '{{ teams }}'         : safe(TEAMS),
-                        '{{ latest_update }}' : safe(LATEST_UPDATE),
-                        '{{ rca }}'           : safe(RCA),
-                        '{{ resolution }}'    : safe(RESOLUTION),
+                        '{{ reported_by }}'  : safe(REPORTED_BY),
+                        '{{ teams }}'        : safe(TEAMS),
+                        '{{ latest_update }}': safe(LATEST_UPDATE),
+                        '{{ rca }}'          : safe(RCA),
+                        '{{ resolution }}'   : safe(RESOLUTION),
 
                         '{{ bridge_section }}': bridgeSection,
-                        '{{ status_badge }}'  : statusBadge
+                        '{{ status_badge }}' : statusBadge
                     ]
 
                     values.each { k, v -> html = html.replace(k, v) }
