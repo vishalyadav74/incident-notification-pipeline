@@ -7,7 +7,7 @@ def send_email(subject, body_html, to_list, cc_list=None):
     smtp_server = "smtp.office365.com"
     smtp_port = 587
     smtp_user = "incident@businessnext.com"
-    smtp_password = "password"  # 🔴 Jenkins env variable better
+    smtp_password = "btxnzsrnjgjfjpqf"  # 🔴 Jenkins env variable better
 
     if isinstance(to_list, str):
         to_list = [x.strip() for x in to_list.split(",") if x.strip()]
