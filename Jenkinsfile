@@ -30,9 +30,12 @@ pipeline {
             steps {
                 script {
 
-                    def safe = { v -> (v == null || v.toString().trim() == '') ? '—' : v.toString() }
+                    /* ---------- SAFE VALUE ---------- */
+                    def safe = { v ->
+                        (v == null || v.toString().trim() == '') ? '—' : v.toString()
+                    }
 
-                    /* ================= INTRO MESSAGE ================= */
+                    /* ---------- INTRO MESSAGE ---------- */
                     def introMessage = """
                     Hi All,<br><br>
                     This is to inform you that we are experiencing a <b>${PRIORITY}</b> issue with
@@ -48,14 +51,14 @@ pipeline {
                         """
                     }
 
-                    /* ================= STATUS BADGE ================= */
+                    /* ---------- STATUS BADGE ---------- */
                     def statusBadge = (STATUS == 'Resolved')
                         ? '<span style="background:#22c55e;color:#fff;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700">RESOLVED</span>'
                         : '<span style="background:#E01E7E;color:#fff;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700">OPEN</span>'
 
-                    /* ================= BRIDGE SECTION ================= */
+                    /* ---------- BRIDGE SECTION ---------- */
                     def bridgeSection = ''
-                    if (STATUS != 'Resolved') {
+                    if (STATUS != 'Resolved' && BRIDGE_CALL_URL?.trim()) {
                         bridgeSection = """
                         <a href="${safe(BRIDGE_CALL_URL)}"
                            class="pill-btn pill-danger"
@@ -64,6 +67,11 @@ pipeline {
                         </a>
                         """
                     }
+
+                    /* ---------- SUBJECT ---------- */
+                    def mailSubject = (STATUS == 'Resolved')
+                        ? "RESOLVED | ${PRIORITY} | ${TITLE}"
+                        : "INCIDENT | ${PRIORITY} | ${TITLE}"
 
                     def html = readFile 'incident_mail.html'
 
@@ -92,7 +100,7 @@ pipeline {
                     values.each { k, v -> html = html.replace(k, v) }
 
                     emailext(
-                        subject: " ${PRIORITY} INCIDENT | ${TITLE}",
+                        subject: mailSubject,
                         body: html,
                         to: MAIL_TO,
                         cc: MAIL_CC,
