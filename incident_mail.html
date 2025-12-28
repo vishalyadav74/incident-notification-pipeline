@@ -125,11 +125,9 @@ th {
     <p>Status: {{ status_badge }}</p>
   </div>
 
-  <!-- INTRO -->
+  <!-- ✅ INTRO (NOW DYNAMIC) -->
   <div class="intro">
-    Hi All,<br><br>
-    This is to inform you that we are experiencing a <b>{{ priority }}</b> issue with
-    <b>{{ title }}</b>. Please find the incident details below:
+    {{ intro_message }}
   </div>
 
   <!-- BODY -->
