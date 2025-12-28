@@ -92,7 +92,7 @@ pipeline {
                     values.each { k, v -> html = html.replace(k, v) }
 
                     emailext(
-                        subject: "🚨 ${PRIORITY} INCIDENT | ${TITLE}",
+                        subject: " ${PRIORITY} INCIDENT | ${TITLE}",
                         body: html,
                         to: MAIL_TO,
                         cc: MAIL_CC,
