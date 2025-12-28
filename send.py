@@ -8,7 +8,7 @@ def send_email(subject, body_html, to_list, cc_list=None):
     smtp_server = 'smtp.office365.com'
     smtp_port = 587
     smtp_user = 'incident@businessnext.com'
-    smtp_password = 'btxnzsrnjgjfjpqf'   # 🔴 PROD me Jenkins credential use karna
+    smtp_password = 'btxnzsrnjgjfjpqf'  # ⚠️ PROD: move to Jenkins credentials
 
     msg = MIMEMultipart('alternative')
     msg['From'] = smtp_user
@@ -30,23 +30,18 @@ def send_email(subject, body_html, to_list, cc_list=None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-
     parser.add_argument('--subject', required=True)
     parser.add_argument('--to', required=True)
-    parser.add_argument('--cc', required=False, default='')
-    parser.add_argument('--body', required=False, default='')
+    parser.add_argument('--cc', default='')
+    parser.add_argument('--body', required=True)
 
     args = parser.parse_args()
 
     to_list = [x.strip() for x in args.to.split(',') if x.strip()]
     cc_list = [x.strip() for x in args.cc.split(',') if x.strip()]
 
-    # HTML body file read
-    if args.body:
-        with open(args.body, 'r') as f:
-            body_html = f.read()
-    else:
-        body_html = "<p>Incident notification</p>"
+    with open(args.body, 'r') as f:
+        body_html = f.read()
 
     send_email(
         subject=args.subject,
