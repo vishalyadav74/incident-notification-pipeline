@@ -30,54 +30,69 @@ pipeline {
             steps {
                 script {
 
-                    def safe = { v ->
-                        (v == null || v.toString().trim() == '') ? '—' : v.toString()
+                    def safe = { v -> (v == null || v.toString().trim() == '') ? '—' : v.toString() }
+
+                    /* ================= INTRO MESSAGE ================= */
+                    def introMessage = """
+                    Hi All,<br><br>
+                    This is to inform you that we are experiencing a <b>${PRIORITY}</b> issue with
+                    <b>${TITLE}</b> in the Production environment. Please find the incident details below.
+                    """
+
+                    if (STATUS == 'Resolved') {
+                        introMessage = """
+                        Hi All,<br><br>
+                        This is to bring to your kind attention that the <b>${PRIORITY}</b> issue for
+                        <b>${TITLE}</b> in the Production environment has been <b>resolved</b> now.
+                        Please find the incident details below.
+                        """
                     }
 
-                    // STATUS BADGE
+                    /* ================= STATUS BADGE ================= */
                     def statusBadge = (STATUS == 'Resolved')
                         ? '<span style="background:#22c55e;color:#fff;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700">RESOLVED</span>'
                         : '<span style="background:#E01E7E;color:#fff;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:700">OPEN</span>'
 
-                    // 👉 JOIN BRIDGE BUTTON ONLY IF NOT RESOLVED
+                    /* ================= BRIDGE SECTION ================= */
                     def bridgeSection = ''
                     if (STATUS != 'Resolved') {
-                        bridgeSection = '''
-                          <a href="''' + safe(BRIDGE_CALL_URL) + '''"
-                             class="pill-btn pill-danger"
-                             target="_blank">
-                             📞 JOIN BRIDGE CALL
-                          </a>
-                        '''
+                        bridgeSection = """
+                        <a href="${safe(BRIDGE_CALL_URL)}"
+                           class="pill-btn pill-danger"
+                           target="_blank">
+                           JOIN BRIDGE CALL
+                        </a>
+                        """
                     }
 
                     def html = readFile 'incident_mail.html'
 
                     def values = [
-                        '{{ title }}'        : safe(TITLE),
-                        '{{ start_time }}'   : safe(START_TIME),
-                        '{{ end_time }}'     : safe(END_TIME),
-                        '{{ case_id }}'      : safe(CASE_ID),
-                        '{{ description }}'  : safe(DESCRIPTION),
+                        '{{ title }}'          : safe(TITLE),
+                        '{{ start_time }}'     : safe(START_TIME),
+                        '{{ end_time }}'       : safe(END_TIME),
+                        '{{ case_id }}'        : safe(CASE_ID),
+                        '{{ description }}'    : safe(DESCRIPTION),
 
-                        '{{ priority }}'     : safe(PRIORITY),
-                        '{{ severity }}'     : safe(SEVERITY),
-                        '{{ status }}'       : safe(STATUS),
+                        '{{ priority }}'       : safe(PRIORITY),
+                        '{{ severity }}'       : safe(SEVERITY),
+                        '{{ status }}'         : safe(STATUS),
 
-                        '{{ reported_by }}'  : safe(REPORTED_BY),
-                        '{{ teams }}'        : safe(TEAMS),
-                        '{{ latest_update }}': safe(LATEST_UPDATE),
-                        '{{ rca }}'          : safe(RCA),
-                        '{{ resolution }}'   : safe(RESOLUTION),
+                        '{{ reported_by }}'    : safe(REPORTED_BY),
+                        '{{ teams }}'          : safe(TEAMS),
+                        '{{ latest_update }}'  : safe(LATEST_UPDATE),
+                        '{{ rca }}'            : safe(RCA),
+                        '{{ resolution }}'     : safe(RESOLUTION),
 
-                        '{{ bridge_section }}': bridgeSection,
-                        '{{ status_badge }}' : statusBadge
+                        '{{ status_badge }}'   : statusBadge,
+                        '{{ intro_message }}'  : introMessage,
+                        '{{ bridge_section }}' : bridgeSection
                     ]
 
                     values.each { k, v -> html = html.replace(k, v) }
 
                     emailext(
-                        subject: " ${PRIORITY} INCIDENT | ${TITLE}",
+                        subject: "🚨 ${PRIORITY} INCIDENT | ${TITLE}",
                         body: html,
                         to: MAIL_TO,
                         cc: MAIL_CC,
