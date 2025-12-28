@@ -84,6 +84,9 @@ th {
   font-weight: 600;
   text-decoration: none;
 }
+.case-link:hover {
+  text-decoration: underline;
+}
 
 /* PILL BUTTON */
 .pill-btn {
@@ -101,10 +104,6 @@ th {
   background: #E01E7E;
 }
 
-.pill-success {
-  background: #22c55e;
-}
-
 /* FOOTER */
 .footer {
   padding: 20px 36px;
@@ -120,17 +119,20 @@ th {
 
 <div class="container">
 
+  <!-- HEADER -->
   <div class="header">
     <h1>{{ priority }} Incident Alert | {{ title }}</h1>
     <p>Status: {{ status_badge }}</p>
   </div>
 
+  <!-- INTRO -->
   <div class="intro">
     Hi All,<br><br>
     This is to inform you that we are experiencing a <b>{{ priority }}</b> issue with
     <b>{{ title }}</b>. Please find the incident details below:
   </div>
 
+  <!-- BODY -->
   <div class="table-wrapper">
 
     <div class="section-title">Incident Details</div>
@@ -146,7 +148,9 @@ th {
         <td>
           <a class="case-link"
              href="https://my.businessnext.com/app/businessnext/Home/Case?mdi=-1&caseId={{ case_id }}"
-             target="_blank">{{ case_id }}</a>
+             target="_blank">
+             {{ case_id }}
+          </a>
         </td>
         <th>Incident End Time</th>
         <td>{{ end_time }}</td>
@@ -189,13 +193,16 @@ th {
       </tr>
     </table>
 
+    <!-- JOIN BRIDGE CALL (ONLY IF NOT RESOLVED – CONTROLLED BY JENKINS) -->
     {{ bridge_section }}
 
   </div>
 
+  <!-- FOOTER -->
   <div class="footer">
     Regards,<br>
-    <b>BusinessNext | ITSM Team</b>
+    <b>BusinessNext | ITSM Team</b><br>
+    This is a system generated notification.
   </div>
 
 </div>
