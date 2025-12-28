@@ -21,7 +21,7 @@ body {
   overflow: hidden;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 .header {
   background: #E01E7E;
   color: #ffffff;
@@ -38,7 +38,7 @@ body {
   opacity: 0.95;
 }
 
-/* ================= INTRO ================= */
+/* INTRO */
 .intro {
   padding: 20px 36px;
   background: #f8fafc;
@@ -47,12 +47,11 @@ body {
   border-bottom: 1px solid #e2e8f0;
 }
 
-/* ================= CONTENT ================= */
+/* CONTENT */
 .table-wrapper {
   padding: 26px 36px;
 }
 
-/* SECTION TITLE */
 .section-title {
   background: #f1f5f9;
   padding: 12px;
@@ -62,10 +61,8 @@ body {
   margin-bottom: 14px;
   border: 1px solid #cbd5e1;
   color: #0f172a;
-  letter-spacing: 0.4px;
 }
 
-/* TABLE */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -76,18 +73,12 @@ table {
 th, td {
   border: 1px solid #cbd5e1;
   padding: 12px;
-  vertical-align: top;
 }
 
 th {
   background: #e5e7eb;
   width: 22%;
-  color: #111827;
   font-weight: 600;
-}
-
-td {
-  background: #ffffff;
 }
 
 /* CASE LINK */
@@ -96,26 +87,32 @@ td {
   font-weight: 600;
   text-decoration: none;
 }
-.case-link:hover {
-  text-decoration: underline;
-}
 
-/* ================= BUTTON ================= */
+/* BUTTON BASE */
 .bridge-btn {
   display: inline-block;
-  background-color: #E01E7E;
-  color: #ffffff !important;
   padding: 14px 36px;
   border-radius: 30px;
   text-decoration: none;
   font-weight: 700;
   font-size: 14px;
   margin-top: 16px;
-  border: none;
+  color: #ffffff !important;
+}
+
+/* RED (DEFAULT) */
+.btn-danger {
+  background-color: #E01E7E;
   box-shadow: 0 6px 14px rgba(224,30,126,0.45);
 }
 
-/* ================= RESOLVED BOX ================= */
+/* GREEN (RESOLVED) */
+.btn-success {
+  background-color: #16a34a;
+  box-shadow: 0 6px 14px rgba(22,163,74,0.45);
+}
+
+/* RESOLVED BOX */
 .resolved-box {
   background: #ecfdf5;
   border-left: 6px solid #22c55e;
@@ -126,7 +123,7 @@ td {
   margin-top: 18px;
 }
 
-/* ================= FOOTER ================= */
+/* FOOTER */
 .footer {
   padding: 20px 36px;
   background: #f8fafc;
@@ -141,20 +138,17 @@ td {
 
 <div class="container">
 
-  <!-- HEADER -->
   <div class="header">
     <h1>{{ priority }} Incident Alert | {{ title }}</h1>
     <p>Status: {{ status_badge }}</p>
   </div>
 
-  <!-- INTRO -->
   <div class="intro">
     Hi All,<br><br>
     This is to inform you that we are experiencing a <b>{{ priority }}</b> issue with
     <b>{{ title }}</b>. Please find the incident details below:
   </div>
 
-  <!-- INCIDENT DETAILS -->
   <div class="table-wrapper">
 
     <div class="section-title">Incident Details</div>
@@ -170,9 +164,7 @@ td {
         <td>
           <a class="case-link"
              href="https://my.businessnext.com/app/businessnext/Home/Case?mdi=-1&caseId={{ case_id }}"
-             target="_blank">
-            {{ case_id }}
-          </a>
+             target="_blank">{{ case_id }}</a>
         </td>
         <th>Incident End Time</th>
         <td>{{ end_time }}</td>
@@ -215,15 +207,13 @@ td {
       </tr>
     </table>
 
-    <!-- DYNAMIC BRIDGE / RESOLVED -->
     {{ bridge_section }}
 
   </div>
 
   <div class="footer">
     Regards,<br>
-    <b>BusinessNext | ITSM Team</b><br>
-    This is a system-generated incident notification.
+    <b>BusinessNext | ITSM Team</b>
   </div>
 
 </div>
