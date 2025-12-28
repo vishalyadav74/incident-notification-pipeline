@@ -1,31 +1,25 @@
 import smtplib
-import sys
+import argparse
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+
 def send_email(subject, body_html, to_list, cc_list=None):
-    smtp_server = "smtp.office365.com"
+    smtp_server = 'smtp.office365.com'
     smtp_port = 587
-    smtp_user = "incident@businessnext.com"
-    smtp_password = "btxnzsrnjgjfjpqf"  # 🔴 Jenkins env variable better
+    smtp_user = 'incident@businessnext.com'
+    smtp_password = 'password'   # 🔴 PROD me Jenkins credential use karna
 
-    if isinstance(to_list, str):
-        to_list = [x.strip() for x in to_list.split(",") if x.strip()]
+    msg = MIMEMultipart('alternative')
+    msg['From'] = smtp_user
+    msg['To'] = ', '.join(to_list)
     if cc_list:
-        cc_list = [x.strip() for x in cc_list.split(",") if x.strip()]
-    else:
-        cc_list = []
+        msg['Cc'] = ', '.join(cc_list)
 
-    recipients = to_list + cc_list
+    msg['Subject'] = subject
+    msg.attach(MIMEText(body_html, 'html'))
 
-    msg = MIMEMultipart()
-    msg["From"] = smtp_user
-    msg["To"] = ", ".join(to_list)
-    if cc_list:
-        msg["Cc"] = ", ".join(cc_list)
-
-    msg["Subject"] = subject
-    msg.attach(MIMEText(body_html, "html"))
+    recipients = to_list + (cc_list or [])
 
     server = smtplib.SMTP(smtp_server, smtp_port)
     server.starttls()
@@ -33,13 +27,30 @@ def send_email(subject, body_html, to_list, cc_list=None):
     server.sendmail(smtp_user, recipients, msg.as_string())
     server.quit()
 
-    print("✅ Email sent successfully")
-
 
 if __name__ == "__main__":
-    subject = sys.argv[1]
-    body = sys.argv[2]
-    to_addr = sys.argv[3]
-    cc_addr = sys.argv[4] if len(sys.argv) > 4 else ""
+    parser = argparse.ArgumentParser()
 
-    send_email(subject, body, to_addr, cc_addr)
+    parser.add_argument('--subject', required=True)
+    parser.add_argument('--to', required=True)
+    parser.add_argument('--cc', required=False, default='')
+    parser.add_argument('--body', required=False, default='')
+
+    args = parser.parse_args()
+
+    to_list = [x.strip() for x in args.to.split(',') if x.strip()]
+    cc_list = [x.strip() for x in args.cc.split(',') if x.strip()]
+
+    # HTML body file read
+    if args.body:
+        with open(args.body, 'r') as f:
+            body_html = f.read()
+    else:
+        body_html = "<p>Incident notification</p>"
+
+    send_email(
+        subject=args.subject,
+        body_html=body_html,
+        to_list=to_list,
+        cc_list=cc_list
+    )
