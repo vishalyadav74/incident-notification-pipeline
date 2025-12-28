@@ -1,85 +1,124 @@
-stage('Send Incident Notification') {
-    steps {
-        script {
+pipeline {
+    agent any
 
-            def safe = { v -> (v == null || v.toString().trim() == '') ? '—' : v.toString() }
+    parameters {
+        string(name: 'MAIL_TO')
+        string(name: 'MAIL_CC')
 
-            /* INTRO MESSAGE */
-            def introMessage = """
-            Hi All,<br><br>
-            This is to inform you that we are experiencing a <b>${PRIORITY}</b> issue with
-            <b>${TITLE}</b> in the Production environment. Please find the incident details below.
-            """
+        string(name: 'TITLE', defaultValue: 'MY PROD | Unable to login')
+        string(name: 'START_TIME')
+        string(name: 'END_TIME', defaultValue: 'N/A')
+        string(name: 'CASE_ID')
+        string(name: 'DESCRIPTION')
 
-            if (STATUS == 'Resolved') {
-                introMessage = """
-                Hi All,<br><br>
-                This is to bring to your kind attention that the <b>${PRIORITY}</b> issue for
-                <b>${TITLE}</b> in the Production environment has been <b>resolved</b> now.
-                Please find the incident details below.
-                """
+        choice(name: 'PRIORITY', choices: ['P1', 'P2', 'P3'])
+        choice(name: 'SEVERITY', choices: ['Critical', 'High', 'Medium', 'Low'])
+        choice(name: 'STATUS', choices: ['In Analysis', 'Identified', 'Monitoring', 'Resolved'])
+
+        string(name: 'REPORTED_BY', defaultValue: 'BizTech')
+        string(name: 'TEAMS', defaultValue: 'ITSM, Cloud, BizTech')
+
+        text(name: 'LATEST_UPDATE')
+        text(name: 'RCA', defaultValue: 'Under investigation')
+        text(name: 'RESOLUTION', defaultValue: 'In progress')
+
+        string(name: 'BRIDGE_CALL_URL')
+    }
+
+    stages {
+        stage('Send Incident Notification') {
+            steps {
+                script {
+
+                    def safe = { v -> (v == null || v.toString().trim() == '') ? '—' : v.toString() }
+
+                    /* INTRO MESSAGE */
+                    def introMessage = """
+                    Hi All,<br><br>
+                    This is to inform you that we are experiencing a <b>${PRIORITY}</b> issue with
+                    <b>${TITLE}</b> in the Production environment. Please find the incident details below.
+                    """
+
+                    if (STATUS == 'Resolved') {
+                        introMessage = """
+                        Hi All,<br><br>
+                        This is to bring to your kind attention that the <b>${PRIORITY}</b> issue for
+                        <b>${TITLE}</b> in the Production environment has been <b>resolved</b> now.
+                        Please find the incident details below.
+                        """
+                    }
+
+                    /* STATUS BADGE */
+                    def statusBadge = (STATUS == 'Resolved')
+                        ? '<span class="status-pill status-resolved">RESOLVED</span>'
+                        : '<span class="status-pill status-open">OPEN</span>'
+
+                    /* JOIN BRIDGE BUTTON */
+                    def bridgeSection = ''
+                    if (STATUS != 'Resolved' && BRIDGE_CALL_URL?.trim()) {
+                        bridgeSection = """
+                        <div style="margin-top:20px;">
+                          <a href="${safe(BRIDGE_CALL_URL)}"
+                             target="_blank"
+                             style="
+                               display:inline-block;
+                               background:#b91c1c;
+                               color:#ffffff;
+                               padding:12px 28px;
+                               border-radius:999px;
+                               font-size:14px;
+                               font-weight:700;
+                               text-decoration:none;
+                               box-shadow:0 6px 14px rgba(185,28,28,0.45);
+                             ">
+                             📞 JOIN BRIDGE CALL
+                          </a>
+                        </div>
+                        """
+                    }
+
+                    def mailSubject = (STATUS == 'Resolved')
+                        ? "RESOLVED | ${PRIORITY} | ${TITLE}"
+                        : "INCIDENT | ${PRIORITY} | ${TITLE}"
+
+                    def html = readFile 'incident_mail.html'
+
+                    def values = [
+                        '{{ title }}'          : safe(TITLE),
+                        '{{ start_time }}'     : safe(START_TIME),
+                        '{{ end_time }}'       : safe(END_TIME),
+                        '{{ case_id }}'        : safe(CASE_ID),
+                        '{{ description }}'    : safe(DESCRIPTION),
+
+                        '{{ priority }}'       : safe(PRIORITY),
+                        '{{ severity }}'       : safe(SEVERITY),
+                        '{{ status }}'         : safe(STATUS),
+
+                        '{{ reported_by }}'    : safe(REPORTED_BY),
+                        '{{ teams }}'          : safe(TEAMS),
+                        '{{ latest_update }}'  : safe(LATEST_UPDATE),
+                        '{{ rca }}'            : safe(RCA),
+                        '{{ resolution }}'     : safe(RESOLUTION),
+
+                        '{{ status_badge }}'   : statusBadge,
+                        '{{ intro_message }}'  : introMessage,
+                        '{{ bridge_section }}' : bridgeSection
+                    ]
+
+                    values.each { k, v -> html = html.replace(k, v) }
+
+                    // 🔴 TEMP: comment emailext if using python
+                    // emailext(...)
+
+                    // ✅ Python mail
+                    sh """
+                      python3 send.py \
+                        --subject "${mailSubject}" \
+                        --to "${MAIL_TO}" \
+                        --cc "${MAIL_CC}"
+                    """
+                }
             }
-
-            /* STATUS BADGE */
-            def statusBadge = (STATUS == 'Resolved')
-                ? '<span class="status-pill status-resolved">RESOLVED</span>'
-                : '<span class="status-pill status-open">OPEN</span>'
-
-            /* JOIN BRIDGE BUTTON – ONLY WHEN NOT RESOLVED */
-            def bridgeSection = ''
-            if (STATUS != 'Resolved' && BRIDGE_CALL_URL?.trim()) {
-                bridgeSection = """
-                <div style="margin-top:20px;">
-                  <a href="${safe(BRIDGE_CALL_URL)}"
-                     style="display:inline-block;
-                            background:#b91c1c;
-                            color:#ffffff;
-                            padding:12px 28px;
-                            border-radius:999px;
-                            font-weight:700;
-                            text-decoration:none;">
-                     📞 JOIN BRIDGE CALL
-                  </a>
-                </div>
-                """
-            }
-
-            def mailSubject = (STATUS == 'Resolved')
-                ? "RESOLVED | ${PRIORITY} | ${TITLE}"
-                : "INCIDENT | ${PRIORITY} | ${TITLE}"
-
-            def html = readFile 'incident_mail.html'
-
-            def values = [
-                '{{ title }}'         : safe(TITLE),
-                '{{ start_time }}'    : safe(START_TIME),
-                '{{ end_time }}'      : safe(END_TIME),
-                '{{ case_id }}'       : safe(CASE_ID),
-                '{{ description }}'   : safe(DESCRIPTION),
-                '{{ priority }}'      : safe(PRIORITY),
-                '{{ severity }}'      : safe(SEVERITY),
-                '{{ status }}'        : safe(STATUS),
-                '{{ reported_by }}'   : safe(REPORTED_BY),
-                '{{ teams }}'         : safe(TEAMS),
-                '{{ latest_update }}' : safe(LATEST_UPDATE),
-                '{{ rca }}'           : safe(RCA),
-                '{{ resolution }}'    : safe(RESOLUTION),
-                '{{ status_badge }}'  : statusBadge,
-                '{{ intro_message }}' : introMessage,
-                '{{ bridge_section }}': bridgeSection
-            ]
-
-            values.each { k, v -> html = html.replace(k, v) }
-
-            writeFile file: 'final_mail.html', text: html
-
-            sh """
-              python3 send.py \
-                "${mailSubject}" \
-                "\$(cat final_mail.html)" \
-                "${MAIL_TO}" \
-                "${MAIL_CC}"
-            """
         }
     }
 }
