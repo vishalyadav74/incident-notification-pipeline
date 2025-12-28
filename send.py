@@ -7,7 +7,7 @@ def send_email(subject, body_html, to_list, cc_list):
     smtp_server = 'smtp.office365.com'
     smtp_port = 587
     smtp_user = 'incident@businessnext.com'
-    smtp_password = 'YOUR_PASSWORD'
+    smtp_password = 'btxnzsrnjgjfjpqf'
 
     msg = MIMEMultipart('related')
     msg['From'] = smtp_user
