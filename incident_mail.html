@@ -78,17 +78,6 @@ th {
   font-weight: 600;
 }
 
-/* CASE LINK */
-.case-link {
-  color: #E01E7E;
-  font-weight: 600;
-  text-decoration: none;
-}
-.case-link:hover {
-  text-decoration: underline;
-}
-
-/* PILL BUTTON */
 /* STATUS PILL */
 .status-pill {
   display: inline-block;
@@ -97,19 +86,24 @@ th {
   font-size: 12px;
   font-weight: 700;
   color: #ffffff;
-  letter-spacing: 0.4px;
 }
 
 .status-open {
-  background: #b91c1c; /* PURE RED */
+  background: #b91c1c;
 }
 
 .status-resolved {
-  background: #16a34a; /* GREEN */
+  background: #16a34a;
 }
 
-.pill-danger {
-  background: #E01E7E;
+/* CASE LINK */
+.case-link {
+  color: #E01E7E;
+  font-weight: 600;
+  text-decoration: none;
+}
+.case-link:hover {
+  text-decoration: underline;
 }
 
 /* FOOTER */
@@ -127,18 +121,15 @@ th {
 
 <div class="container">
 
-  <!-- HEADER -->
   <div class="header">
     <h1>{{ priority }} Incident Alert | {{ title }}</h1>
     <p>Status: {{ status_badge }}</p>
   </div>
 
-  <!-- ✅ INTRO (NOW DYNAMIC) -->
   <div class="intro">
     {{ intro_message }}
   </div>
 
-  <!-- BODY -->
   <div class="table-wrapper">
 
     <div class="section-title">Incident Details</div>
@@ -154,9 +145,7 @@ th {
         <td>
           <a class="case-link"
              href="https://my.businessnext.com/app/businessnext/Home/Case?mdi=-1&caseId={{ case_id }}"
-             target="_blank">
-             {{ case_id }}
-          </a>
+             target="_blank">{{ case_id }}</a>
         </td>
         <th>Incident End Time</th>
         <td>{{ end_time }}</td>
@@ -199,12 +188,10 @@ th {
       </tr>
     </table>
 
-    <!-- JOIN BRIDGE CALL (ONLY IF NOT RESOLVED – CONTROLLED BY JENKINS) -->
     {{ bridge_section }}
 
   </div>
 
-  <!-- FOOTER -->
   <div class="footer">
     Regards,<br>
     <b>BusinessNext | ITSM Team</b><br>
