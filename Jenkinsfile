@@ -81,41 +81,39 @@ pipeline {
                         ? "RESOLVED | ${PRIORITY} | ${TITLE}"
                         : "INCIDENT | ${PRIORITY} | ${TITLE}"
 
+                    /* READ + REPLACE TEMPLATE */
                     def html = readFile 'incident_mail.html'
 
                     def values = [
-                        '{{ title }}'          : safe(TITLE),
-                        '{{ start_time }}'     : safe(START_TIME),
-                        '{{ end_time }}'       : safe(END_TIME),
-                        '{{ case_id }}'        : safe(CASE_ID),
-                        '{{ description }}'    : safe(DESCRIPTION),
-
-                        '{{ priority }}'       : safe(PRIORITY),
-                        '{{ severity }}'       : safe(SEVERITY),
-                        '{{ status }}'         : safe(STATUS),
-
-                        '{{ reported_by }}'    : safe(REPORTED_BY),
-                        '{{ teams }}'          : safe(TEAMS),
-                        '{{ latest_update }}'  : safe(LATEST_UPDATE),
-                        '{{ rca }}'            : safe(RCA),
-                        '{{ resolution }}'     : safe(RESOLUTION),
-
-                        '{{ status_badge }}'   : statusBadge,
-                        '{{ intro_message }}'  : introMessage,
-                        '{{ bridge_section }}' : bridgeSection
+                        '{{ title }}'         : safe(TITLE),
+                        '{{ start_time }}'    : safe(START_TIME),
+                        '{{ end_time }}'      : safe(END_TIME),
+                        '{{ case_id }}'       : safe(CASE_ID),
+                        '{{ description }}'   : safe(DESCRIPTION),
+                        '{{ priority }}'      : safe(PRIORITY),
+                        '{{ severity }}'      : safe(SEVERITY),
+                        '{{ status }}'        : safe(STATUS),
+                        '{{ reported_by }}'   : safe(REPORTED_BY),
+                        '{{ teams }}'         : safe(TEAMS),
+                        '{{ latest_update }}' : safe(LATEST_UPDATE),
+                        '{{ rca }}'           : safe(RCA),
+                        '{{ resolution }}'    : safe(RESOLUTION),
+                        '{{ status_badge }}'  : statusBadge,
+                        '{{ intro_message }}' : introMessage,
+                        '{{ bridge_section }}': bridgeSection
                     ]
 
                     values.each { k, v -> html = html.replace(k, v) }
 
-                    // 🔴 TEMP: comment emailext if using python
-                    // emailext(...)
+                    /* ✅ WRITE FINAL HTML */
+                    writeFile file: 'final_mail.html', text: html
 
-                    // ✅ Python mail
                     sh """
                       python3 send.py \
                         --subject "${mailSubject}" \
                         --to "${MAIL_TO}" \
-                        --cc "${MAIL_CC}"
+                        --cc "${MAIL_CC}" \
+                        --body final_mail.html
                     """
                 }
             }
