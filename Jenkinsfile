@@ -30,10 +30,7 @@ pipeline {
             steps {
                 script {
 
-                    /* ---------- SAFE VALUE ---------- */
-                    def safe = { v ->
-                        (v == null || v.toString().trim() == '') ? '—' : v.toString()
-                    }
+                    def safe = { v -> (v == null || v.toString().trim() == '') ? '—' : v.toString() }
 
                     /* ---------- INTRO MESSAGE ---------- */
                     def introMessage = """
@@ -52,25 +49,34 @@ pipeline {
                     }
 
                     /* ---------- STATUS BADGE ---------- */
-                    /* ---------- STATUS BADGE ---------- */
-def statusBadge = (STATUS == 'Resolved')
-    ? '<span class="status-pill status-resolved">RESOLVED</span>'
-    : '<span class="status-pill status-open">OPEN</span>'
+                    def statusBadge = (STATUS == 'Resolved')
+                        ? '<span class="status-pill status-resolved">RESOLVED</span>'
+                        : '<span class="status-pill status-open">OPEN</span>'
 
-
-                    /* ---------- BRIDGE SECTION ---------- */
+                    /* ---------- JOIN BRIDGE BUTTON (INLINE STYLE) ---------- */
                     def bridgeSection = ''
                     if (STATUS != 'Resolved' && BRIDGE_CALL_URL?.trim()) {
                         bridgeSection = """
-                        <a href="${safe(BRIDGE_CALL_URL)}"
-                           class="pill-btn pill-danger"
-                           target="_blank">
-                           JOIN BRIDGE CALL
-                        </a>
+                        <div style="margin-top:20px;">
+                          <a href="${safe(BRIDGE_CALL_URL)}"
+                             target="_blank"
+                             style="
+                               display:inline-block;
+                               background:#b91c1c;
+                               color:#ffffff;
+                               padding:12px 28px;
+                               border-radius:999px;
+                               font-size:14px;
+                               font-weight:700;
+                               text-decoration:none;
+                               box-shadow:0 6px 14px rgba(185,28,28,0.45);
+                             ">
+                             📞 JOIN BRIDGE CALL
+                          </a>
+                        </div>
                         """
                     }
 
-                    /* ---------- SUBJECT ---------- */
                     def mailSubject = (STATUS == 'Resolved')
                         ? "RESOLVED | ${PRIORITY} | ${TITLE}"
                         : "INCIDENT | ${PRIORITY} | ${TITLE}"
