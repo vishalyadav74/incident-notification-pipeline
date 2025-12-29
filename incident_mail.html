@@ -25,11 +25,11 @@ body {
 .header {
   background: #E01E7E;
   color: #ffffff;
-  padding: 28px 36px;
+  padding: 26px 32px;
 }
 .header h1 {
   margin: 0;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
 }
 .header p {
@@ -39,7 +39,7 @@ body {
 
 /* INTRO */
 .intro {
-  padding: 20px 36px;
+  padding: 18px 32px;
   background: #f8fafc;
   font-size: 14px;
   border-bottom: 1px solid #e2e8f0;
@@ -47,9 +47,10 @@ body {
 
 /* CONTENT */
 .table-wrapper {
-  padding: 26px 36px;
+  padding: 24px 32px;
 }
 
+/* SECTION TITLE */
 .section-title {
   background: #f1f5f9;
   padding: 12px;
@@ -60,6 +61,7 @@ body {
   border: 1px solid #cbd5e1;
 }
 
+/* TABLE */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -87,7 +89,7 @@ th {
   font-weight: 700;
   color: #ffffff;
 }
-.status-open { background:#b91D1D; }
+.status-open { background:#b91c1c; }
 .status-resolved { background:#16a34a; }
 
 /* CASE LINK */
@@ -96,14 +98,47 @@ th {
   font-weight: 600;
   text-decoration: none;
 }
+.case-link:hover {
+  text-decoration: underline;
+}
 
 /* FOOTER */
 .footer {
-  padding: 20px 36px;
+  padding: 20px 32px;
   background: #f8fafc;
   font-size: 12px;
   color: #475569;
   border-top: 1px solid #e2e8f0;
+}
+
+/* 📱 MOBILE FIX */
+@media only screen and (max-width: 600px) {
+
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    width: 100% !important;
+    border-radius: 6px;
+  }
+
+  .header h1 {
+    font-size: 18px;
+  }
+
+  table, tbody, tr, th, td {
+    display: block;
+    width: 100%;
+  }
+
+  th {
+    margin-top: 10px;
+  }
+
+  td {
+    border-top: none;
+  }
 }
 </style>
 </head>
@@ -111,15 +146,18 @@ th {
 <body>
 <div class="container">
 
+  <!-- HEADER -->
   <div class="header">
     <h1>{{ priority }} Incident | {{ title }}</h1>
     <p>Status: {{ status_badge }}</p>
   </div>
 
+  <!-- INTRO -->
   <div class="intro">
     {{ intro_message }}
   </div>
 
+  <!-- BODY -->
   <div class="table-wrapper">
 
     <div class="section-title">Incident Details</div>
@@ -182,16 +220,15 @@ th {
 
   </div>
 
+  <!-- FOOTER -->
   <div class="footer">
     Regards,<br>
     <b>BusinessNext | ITSM Team</b><br><br>
 
-    <!-- LOGO -->
+    <!-- ✅ LOGO (WILL ALWAYS SHOW) -->
     <img src="cid:businessnext_logo"
          alt="BusinessNext Logo"
-         style="height:36px;">
-
-    <br><br>
+         style="height:36px; display:block;">
   </div>
 
 </div>
