@@ -30,32 +30,68 @@ pipeline {
       steps {
         script {
 
-          def safe = { v -> (v == null || v.trim() == '') ? '—' : v }
+          def safe = { v -> (v == null || v.toString().trim() == '') ? '—' : v.toString() }
 
+          /* INTRO MESSAGE */
           def introMessage = (STATUS == 'Resolved') ?
           """
           Hi All,<br><br>
           This is to bring to your kind attention that the <b>${PRIORITY}</b> issue for
           <b>${TITLE}</b> in the Production environment has been <b>resolved</b>.
           Please find the incident details below.
-          """ :
+          """
+          :
           """
           Hi All,<br><br>
           This is to inform you that we are experiencing a <b>${PRIORITY}</b> issue with
           <b>${TITLE}</b> in the Production environment.
           """
 
-          def statusBadge = (STATUS == 'Resolved')
-            ? '<span class="status-pill status-resolved">RESOLVED</span>'
-            : '<span class="status-pill status-open">OPEN</span>'
+          /* ✅ STATUS BADGE – INLINE (EMAIL SAFE) */
+          def statusBadge = ''
+          if (STATUS == 'Resolved') {
+            statusBadge = '''
+            <span style="
+              display:inline-block;
+              background:#16a34a;
+              color:#ffffff;
+              padding:6px 14px;
+              border-radius:999px;
+              font-size:12px;
+              font-weight:700;">
+              RESOLVED
+            </span>
+            '''
+          } else {
+            statusBadge = '''
+            <span style="
+              display:inline-block;
+              background:#b91c1c;
+              color:#ffffff;
+              padding:6px 14px;
+              border-radius:999px;
+              font-size:12px;
+              font-weight:700;">
+              OPEN
+            </span>
+            '''
+          }
 
+          /* BRIDGE BUTTON */
           def bridgeSection = ''
           if (STATUS != 'Resolved' && BRIDGE_CALL_URL?.trim()) {
             bridgeSection = """
             <div style="margin-top:20px;">
               <a href="${BRIDGE_CALL_URL}" target="_blank"
-                 style="background:#b91c1c;color:#fff;padding:12px 28px;
-                        border-radius:999px;font-weight:700;text-decoration:none;">
+                 style="
+                   display:inline-block;
+                   background:#b91c1c;
+                   color:#ffffff;
+                   padding:12px 28px;
+                   border-radius:999px;
+                   font-size:14px;
+                   font-weight:700;
+                   text-decoration:none;">
                  📞 JOIN BRIDGE CALL
               </a>
             </div>
@@ -69,17 +105,25 @@ pipeline {
           def html = readFile 'incident_mail.html'
 
           [
-            '{{ title }}':TITLE, '{{ start_time }}':START_TIME,
-            '{{ end_time }}':END_TIME, '{{ case_id }}':CASE_ID,
-            '{{ description }}':DESCRIPTION, '{{ priority }}':PRIORITY,
-            '{{ severity }}':SEVERITY, '{{ status }}':STATUS,
-            '{{ reported_by }}':REPORTED_BY, '{{ teams }}':TEAMS,
-            '{{ latest_update }}':LATEST_UPDATE, '{{ rca }}':RCA,
-            '{{ resolution }}':RESOLUTION, '{{ status_badge }}':statusBadge,
-            '{{ intro_message }}':introMessage, '{{ bridge_section }}':bridgeSection
+            '{{ title }}':TITLE,
+            '{{ start_time }}':START_TIME,
+            '{{ end_time }}':END_TIME,
+            '{{ case_id }}':CASE_ID,
+            '{{ description }}':DESCRIPTION,
+            '{{ priority }}':PRIORITY,
+            '{{ severity }}':SEVERITY,
+            '{{ status }}':STATUS,
+            '{{ reported_by }}':REPORTED_BY,
+            '{{ teams }}':TEAMS,
+            '{{ latest_update }}':LATEST_UPDATE,
+            '{{ rca }}':RCA,
+            '{{ resolution }}':RESOLUTION,
+            '{{ status_badge }}':statusBadge,
+            '{{ intro_message }}':introMessage,
+            '{{ bridge_section }}':bridgeSection
           ].each { k,v -> html = html.replace(k, safe(v)) }
 
-          writeFile file:'final_mail.html', text:html
+          writeFile file: 'final_mail.html', text: html
 
           sh """
             python3 send.py \
