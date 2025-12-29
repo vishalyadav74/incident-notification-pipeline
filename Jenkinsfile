@@ -30,7 +30,7 @@ pipeline {
       steps {
         script {
 
-          def safe = { v -> (v == null || v.toString().trim() == '') ? '—' : v.toString() }
+          def safe = { v -> (v == null || v.toString().trim() == '') ? '' : v.toString() }
 
           /* INTRO MESSAGE */
           def introMessage = (STATUS == 'Resolved') ?
@@ -47,51 +47,49 @@ pipeline {
           <b>${TITLE}</b> in the Production environment.
           """
 
-          /* ✅ STATUS BADGE – INLINE (EMAIL SAFE) */
-          def statusBadge = ''
+          /* STATUS BADGE */
+          def statusBadge = (STATUS == 'Resolved') ?
+          '''
+          <span style="display:inline-block;background:#16a34a;color:#fff;
+                       padding:6px 14px;border-radius:999px;
+                       font-size:12px;font-weight:700;">
+            RESOLVED
+          </span>
+          '''
+          :
+          '''
+          <span style="display:inline-block;background:#b91c1c;color:#fff;
+                       padding:6px 14px;border-radius:999px;
+                       font-size:12px;font-weight:700;">
+            OPEN
+          </span>
+          '''
+
+          /* ✅ FINAL BRIDGE SECTION LOGIC */
+          def bridgeSection = ''
+
           if (STATUS == 'Resolved') {
-            statusBadge = '''
-            <span style="
-              display:inline-block;
-              background:#16a34a;
-              color:#ffffff;
-              padding:6px 14px;
-              border-radius:999px;
-              font-size:12px;
-              font-weight:700;">
-              RESOLVED
-            </span>
-            '''
-          } else {
-            statusBadge = '''
-            <span style="
-              display:inline-block;
-              background:#b91c1c;
-              color:#ffffff;
-              padding:6px 14px;
-              border-radius:999px;
-              font-size:12px;
-              font-weight:700;">
-              OPEN
-            </span>
+            bridgeSection = '''
+            <div style="margin-top:16px;
+                        font-size:13px;
+                        color:#475569;
+                        font-style:italic;">
+              Check case for complete detail.
+            </div>
             '''
           }
-
-          /* BRIDGE BUTTON */
-          def bridgeSection = ''
-          if (STATUS != 'Resolved' && BRIDGE_CALL_URL?.trim()) {
+          else if (BRIDGE_CALL_URL?.trim()) {
             bridgeSection = """
             <div style="margin-top:20px;">
               <a href="${BRIDGE_CALL_URL}" target="_blank"
-                 style="
-                   display:inline-block;
-                   background:#b91c1c;
-                   color:#ffffff;
-                   padding:12px 28px;
-                   border-radius:999px;
-                   font-size:14px;
-                   font-weight:700;
-                   text-decoration:none;">
+                 style="display:inline-block;
+                        background:#b91c1c;
+                        color:#ffffff;
+                        padding:12px 28px;
+                        border-radius:999px;
+                        font-size:14px;
+                        font-weight:700;
+                        text-decoration:none;">
                  📞 JOIN BRIDGE CALL
               </a>
             </div>
