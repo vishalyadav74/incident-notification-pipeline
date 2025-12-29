@@ -3,234 +3,208 @@
 <head>
 <meta charset="UTF-8">
 <title>Incident Notification</title>
-
-<style>
-body {
-  font-family: Segoe UI, Arial, sans-serif;
-  background: #f1f5f9;
-  padding: 24px;
-  color: #0f172a;
-}
-
-.container {
-  max-width: 1050px;
-  margin: auto;
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
-  overflow: hidden;
-}
-
-/* HEADER */
-.header {
-  background: #E01E7E;
-  color: #ffffff;
-  padding: 26px 32px;
-}
-.header h1 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 700;
-}
-.header p {
-  margin-top: 6px;
-  font-size: 14px;
-}
-
-/* INTRO */
-.intro {
-  padding: 18px 32px;
-  background: #f8fafc;
-  font-size: 14px;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-/* CONTENT */
-.table-wrapper {
-  padding: 24px 32px;
-}
-
-/* SECTION TITLE */
-.section-title {
-  background: #f1f5f9;
-  padding: 12px;
-  text-align: center;
-  font-weight: 700;
-  border-radius: 6px;
-  margin-bottom: 14px;
-  border: 1px solid #cbd5e1;
-}
-
-/* TABLE */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-  margin-bottom: 26px;
-}
-
-th, td {
-  border: 1px solid #cbd5e1;
-  padding: 12px;
-}
-
-th {
-  background: #e5e7eb;
-  width: 22%;
-  font-weight: 600;
-}
-
-/* STATUS PILL */
-.status-pill {
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #ffffff;
-}
-.status-open { background:#b91c1c; }
-.status-resolved { background:#16a34a; }
-
-/* CASE LINK */
-.case-link {
-  color: #E01E7E;
-  font-weight: 600;
-  text-decoration: none;
-}
-.case-link:hover {
-  text-decoration: underline;
-}
-
-/* FOOTER */
-.footer {
-  padding: 20px 32px;
-  background: #f8fafc;
-  font-size: 12px;
-  color: #475569;
-  border-top: 1px solid #e2e8f0;
-}
-
-/* 📱 MOBILE FIX */
-@media only screen and (max-width: 600px) {
-
-  body {
-    padding: 10px;
-  }
-
-  .container {
-    width: 100% !important;
-    border-radius: 6px;
-  }
-
-  .header h1 {
-    font-size: 18px;
-  }
-
-  table, tbody, tr, th, td {
-    display: block;
-    width: 100%;
-  }
-
-  th {
-    margin-top: 10px;
-  }
-
-  td {
-    border-top: none;
-  }
-}
-</style>
 </head>
 
-<body>
-<div class="container">
+<body style="margin:0;padding:0;background:#f1f5f9;font-family:Segoe UI,Arial,sans-serif;color:#0f172a;">
 
-  <!-- HEADER -->
-  <div class="header">
-    <h1>{{ priority }} Incident | {{ title }}</h1>
-    <p>Status: {{ status_badge }}</p>
-  </div>
+<!-- OUTER WRAPPER -->
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f9;">
+<tr>
+<td align="center">
 
-  <!-- INTRO -->
-  <div class="intro">
-    {{ intro_message }}
-  </div>
+<!-- MAIN CONTAINER -->
+<table width="100%" cellpadding="0" cellspacing="0"
+       style="max-width:700px;background:#ffffff;border-radius:10px;overflow:hidden;">
 
-  <!-- BODY -->
-  <div class="table-wrapper">
+<!-- HEADER -->
+<tr>
+<td style="background:#E01E7E;color:#ffffff;padding:24px 28px;">
+  <h1 style="margin:0;font-size:20px;font-weight:700;">
+    {{ priority }} Incident | {{ title }}
+  </h1>
+  <p style="margin-top:6px;font-size:13px;">
+    Status: {{ status_badge }}
+  </p>
+</td>
+</tr>
 
-    <div class="section-title">Incident Details</div>
-    <table>
-      <tr>
-        <th>Incident Title</th>
-        <td>{{ title }}</td>
-        <th>Incident Start Time</th>
-        <td>{{ start_time }}</td>
-      </tr>
-      <tr>
-        <th>Case ID</th>
-        <td>
-          <a class="case-link"
-             href="https://my.businessnext.com/app/businessnext/Home/Case?mdi=-1&caseId={{ case_id }}"
-             target="_blank">{{ case_id }}</a>
-        </td>
-        <th>Incident End Time</th>
-        <td>{{ end_time }}</td>
-      </tr>
-      <tr>
-        <th>Description</th>
-        <td colspan="3">{{ description }}</td>
-      </tr>
-    </table>
+<!-- INTRO -->
+<tr>
+<td style="padding:18px 28px;background:#f8fafc;border-bottom:1px solid #e2e8f0;font-size:14px;">
+  {{ intro_message }}
+</td>
+</tr>
 
-    <div class="section-title">Incident Classification & Updates</div>
-    <table>
-      <tr>
-        <th>Priority</th>
-        <td>{{ priority }}</td>
-        <th>Severity</th>
-        <td>{{ severity }}</td>
-      </tr>
-      <tr>
-        <th>Status</th>
-        <td>{{ status }}</td>
-        <th>Reported By</th>
-        <td>{{ reported_by }}</td>
-      </tr>
-      <tr>
-        <th>Teams Involved</th>
-        <td colspan="3">{{ teams }}</td>
-      </tr>
-      <tr>
-        <th>Latest Update</th>
-        <td colspan="3">{{ latest_update }}</td>
-      </tr>
-      <tr>
-        <th>RCA</th>
-        <td colspan="3">{{ rca }}</td>
-      </tr>
-      <tr>
-        <th>Resolution</th>
-        <td colspan="3">{{ resolution }}</td>
-      </tr>
-    </table>
+<!-- BODY -->
+<tr>
+<td style="padding:20px 28px;">
 
-    {{ bridge_section }}
+<!-- INCIDENT DETAILS -->
+<table width="100%" cellpadding="0" cellspacing="0"
+       style="border-collapse:collapse;font-size:14px;margin-bottom:22px;table-layout:fixed;">
+<tr>
+<td colspan="2"
+    style="background:#f1f5f9;padding:10px;font-weight:700;text-align:center;
+           border:1px solid #cbd5e1;">
+  Incident Details
+</td>
+</tr>
 
-  </div>
+<tr>
+<th align="left" style="width:35%;background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
+  Incident Title
+</th>
+<td style="padding:10px;border:1px solid #cbd5e1;">
+  {{ title }}
+</td>
+</tr>
 
-  <!-- FOOTER -->
-  <div class="footer">
-    Regards,<br>
-    <b>BusinessNext | ITSM Team</b><br><br>
+<tr>
+<th align="left" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
+  Incident Start Time
+</th>
+<td style="padding:10px;border:1px solid #cbd5e1;">
+  {{ start_time }}
+</td>
+</tr>
 
-    <!-- ✅ LOGO (WILL ALWAYS SHOW) -->
-    <img src="cid:businessnext_logo"
-         alt="BusinessNext Logo"
-         style="height:36px; display:block;">
-  </div>
+<tr>
+<th align="left" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
+  Case ID
+</th>
+<td style="padding:10px;border:1px solid #cbd5e1;">
+  <a href="https://my.businessnext.com/app/businessnext/Home/Case?mdi=-1&caseId={{ case_id }}"
+     style="color:#E01E7E;font-weight:600;text-decoration:none;" target="_blank">
+    {{ case_id }}
+  </a>
+</td>
+</tr>
 
-</div>
+<tr>
+<th align="left" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
+  Incident End Time
+</th>
+<td style="padding:10px;border:1px solid #cbd5e1;">
+  {{ end_time }}
+</td>
+</tr>
+
+<tr>
+<th align="left" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
+  Description
+</th>
+<td style="padding:10px;border:1px solid #cbd5e1;">
+  {{ description }}
+</td>
+</tr>
+</table>
+
+<!-- CLASSIFICATION -->
+<table width="100%" cellpadding="0" cellspacing="0"
+       style="border-collapse:collapse;font-size:14px;margin-bottom:22px;table-layout:fixed;">
+<tr>
+<td colspan="2"
+    style="background:#f1f5f9;padding:10px;font-weight:700;text-align:center;
+           border:1px solid #cbd5e1;">
+  Incident Classification & Updates
+</td>
+</tr>
+
+<tr>
+<th align="left" style="width:35%;background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
+  Priority
+</th>
+<td style="padding:10px;border:1px solid #cbd5e1;">
+  {{ priority }}
+</td>
+</tr>
+
+<tr>
+<th align="left" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
+  Severity
+</th>
+<td style="padding:10px;border:1px solid #cbd5e1;">
+  {{ severity }}
+</td>
+</tr>
+
+<tr>
+<th align="left" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
+  Status
+</th>
+<td style="padding:10px;border:1px solid #cbd5e1;">
+  {{ status }}
+</td>
+</tr>
+
+<tr>
+<th align="left" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
+  Reported By
+</th>
+<td style="padding:10px;border:1px solid #cbd5e1;">
+  {{ reported_by }}
+</td>
+</tr>
+
+<tr>
+<th align="left" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
+  Teams Involved
+</th>
+<td style="padding:10px;border:1px solid #cbd5e1;">
+  {{ teams }}
+</td>
+</tr>
+
+<tr>
+<th align="left" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
+  Latest Update
+</th>
+<td style="padding:10px;border:1px solid #cbd5e1;">
+  {{ latest_update }}
+</td>
+</tr>
+
+<tr>
+<th align="left" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
+  RCA
+</th>
+<td style="padding:10px;border:1px solid #cbd5e1;">
+  {{ rca }}
+</td>
+</tr>
+
+<tr>
+<th align="left" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
+  Resolution
+</th>
+<td style="padding:10px;border:1px solid #cbd5e1;">
+  {{ resolution }}
+</td>
+</tr>
+</table>
+
+<!-- BRIDGE BUTTON -->
+{{ bridge_section }}
+
+</td>
+</tr>
+
+<!-- FOOTER -->
+<tr>
+<td style="padding:18px 28px;background:#f8fafc;border-top:1px solid #e2e8f0;font-size:12px;color:#475569;">
+  Regards,<br>
+  <b>BusinessNext | ITSM Team</b><br><br>
+
+  <img src="cid:businessnext_logo"
+       alt="BusinessNext Logo"
+       style="height:34px;display:block;">
+</td>
+</tr>
+
+</table>
+</td>
+</tr>
+</table>
+
 </body>
 </html>
