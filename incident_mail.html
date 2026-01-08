@@ -8,13 +8,11 @@
 <body style="margin:0;padding:0;background:#f1f5f9;
              font-family:Segoe UI,Arial,sans-serif;color:#0f172a;">
 
-<!-- FULL WIDTH OUTER WRAPPER -->
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
        style="background:#f1f5f9;margin:0;padding:0;">
 <tr>
 <td align="center">
 
-<!-- FULL WIDTH CARD -->
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"
        style="width:100%;max-width:100%;background:#ffffff;">
 
@@ -22,7 +20,7 @@
 <tr>
 <td style="background:#E01E7E;color:#ffffff;padding:22px 32px;">
   <h1 style="margin:0;font-size:20px;font-weight:700;line-height:1.3;">
-    {{ priority }} Incident | {{ title }}
+    🚨 {{ priority }} Incident | {{ title }}
   </h1>
   <div style="margin-top:8px;">
     {{ status_badge }}
@@ -38,147 +36,121 @@
 </td>
 </tr>
 
+<!-- SUMMARY CARDS -->
+<tr>
+<td style="padding:16px 32px;">
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td width="25%" style="padding:8px;">
+  <div style="background:#f8fafc;border-radius:8px;padding:12px;text-align:center;">
+    <div style="font-size:12px;color:#64748b;">Priority</div>
+    <b>{{ priority }}</b>
+  </div>
+</td>
+<td width="25%" style="padding:8px;">
+  <div style="background:#f8fafc;border-radius:8px;padding:12px;text-align:center;">
+    <div style="font-size:12px;color:#64748b;">Severity</div>
+    <b>{{ severity }}</b>
+  </div>
+</td>
+<td width="25%" style="padding:8px;">
+  <div style="background:#f8fafc;border-radius:8px;padding:12px;text-align:center;">
+    <div style="font-size:12px;color:#64748b;">Status</div>
+    <b>{{ status }}</b>
+  </div>
+</td>
+<td width="25%" style="padding:8px;">
+  <div style="background:#f8fafc;border-radius:8px;padding:12px;text-align:center;">
+    <div style="font-size:12px;color:#64748b;">Reported By</div>
+    <b>{{ reported_by }}</b>
+  </div>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
 <!-- BODY -->
 <tr>
 <td style="padding:20px 32px;">
 
 <!-- INCIDENT DETAILS -->
 <table width="100%" cellpadding="0" cellspacing="0"
-       style="border-collapse:collapse;font-size:14px;
-              margin-bottom:24px;table-layout:fixed;">
+       style="border-collapse:collapse;font-size:14px;margin-bottom:24px;">
 <tr>
 <td colspan="4"
     style="background:#f1f5f9;padding:10px;font-weight:700;
            text-align:center;border:1px solid #cbd5e1;">
-  Incident Details
+  📌 Incident Details
 </td>
 </tr>
 
 <tr>
-<th width="25%" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
-  Incident Title
-</th>
-<td width="25%" style="padding:10px;border:1px solid #cbd5e1;word-break:break-word;">
-  {{ title }}
-</td>
-<th width="25%" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
-  Incident Start Time
-</th>
-<td width="25%" style="padding:10px;border:1px solid #cbd5e1;">
-  {{ start_time }}
-</td>
+<th width="25%" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">Title</th>
+<td width="25%" style="padding:10px;border:1px solid #cbd5e1;">{{ title }}</td>
+<th width="25%" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">Start Time</th>
+<td width="25%" style="padding:10px;border:1px solid #cbd5e1;">{{ start_time }}</td>
 </tr>
 
 <tr>
-<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
-  Case ID
-</th>
+<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">Case ID</th>
 <td style="padding:10px;border:1px solid #cbd5e1;">
-  <a href="https://my.businessnext.com/app/businessnext/Home/Case?mdi=-1&caseId={{ case_id }}"
-     style="color:#E01E7E;font-weight:600;text-decoration:none;" target="_blank">
-    {{ case_id }}
-  </a>
+<a href="https://my.businessnext.com/app/businessnext/Home/Case?mdi=-1&caseId={{ case_id }}"
+   style="color:#E01E7E;font-weight:600;text-decoration:none;" target="_blank">
+{{ case_id }}
+</a>
 </td>
-<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
-  Incident End Time
-</th>
-<td style="padding:10px;border:1px solid #cbd5e1;">
-  {{ end_time }}
-</td>
+<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">End Time</th>
+<td style="padding:10px;border:1px solid #cbd5e1;">{{ end_time }}</td>
 </tr>
 
 <tr>
-<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
-  Description
-</th>
-<td colspan="3"
-    style="padding:10px;border:1px solid #cbd5e1;word-break:break-word;">
-  {{ description }}
+<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">Description</th>
+<td colspan="3" style="padding:10px;border:1px solid #cbd5e1;">
+{{ description }}
 </td>
 </tr>
 </table>
 
 <!-- CLASSIFICATION -->
 <table width="100%" cellpadding="0" cellspacing="0"
-       style="border-collapse:collapse;font-size:14px;
-              margin-bottom:24px;table-layout:fixed;">
+       style="border-collapse:collapse;font-size:14px;margin-bottom:24px;">
 <tr>
 <td colspan="4"
     style="background:#f1f5f9;padding:10px;font-weight:700;
            text-align:center;border:1px solid #cbd5e1;">
-  Incident Classification & Updates
+  ⚙ Incident Classification & Updates
 </td>
 </tr>
 
 <tr>
-<th width="25%" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
-  Priority
-</th>
-<td width="25%" style="padding:10px;border:1px solid #cbd5e1;">
-  {{ priority }}
-</td>
-<th width="25%" style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
-  Severity
-</th>
-<td width="25%" style="padding:10px;border:1px solid #cbd5e1;">
-  {{ severity }}
+<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">Teams Involved</th>
+<td colspan="3" style="padding:10px;border:1px solid #cbd5e1;">{{ teams }}</td>
+</tr>
+
+<tr>
+<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">Latest Update</th>
+<td colspan="3" style="padding:10px;border:1px solid #cbd5e1;">{{ latest_update }}</td>
+</tr>
+
+<tr>
+<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">RCA</th>
+<td colspan="3" style="padding:12px;border:1px solid #cbd5e1;
+background:#fff4e5;border-left:4px solid #fb923c;">
+{{ rca }}
 </td>
 </tr>
 
 <tr>
-<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
-  Status
-</th>
-<td style="padding:10px;border:1px solid #cbd5e1;">
-  {{ status }}
-</td>
-<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
-  Reported By
-</th>
-<td style="padding:10px;border:1px solid #cbd5e1;">
-  {{ reported_by }}
-</td>
-</tr>
-
-<tr>
-<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
-  Teams Involved
-</th>
-<td colspan="3" style="padding:10px;border:1px solid #cbd5e1;">
-  {{ teams }}
-</td>
-</tr>
-
-<tr>
-<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
-  Latest Update
-</th>
-<td colspan="3"
-    style="padding:10px;border:1px solid #cbd5e1;word-break:break-word;">
-  {{ latest_update }}
-</td>
-</tr>
-
-<tr>
-<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
-  RCA
-</th>
-<td colspan="3" style="padding:10px;border:1px solid #cbd5e1;">
-  {{ rca }}
-</td>
-</tr>
-
-<tr>
-<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">
-  Resolution
-</th>
-<td colspan="3" style="padding:10px;border:1px solid #cbd5e1;">
-  {{ resolution }}
+<th style="background:#e5e7eb;padding:10px;border:1px solid #cbd5e1;">Resolution</th>
+<td colspan="3" style="padding:12px;border:1px solid #cbd5e1;
+background:#e8f5e9;border-left:4px solid #22c55e;">
+{{ resolution }}
 </td>
 </tr>
 </table>
 
-<!-- BRIDGE / RESOLVED MESSAGE -->
+<!-- BRIDGE / RESOLUTION CTA -->
 {{ bridge_section }}
 
 </td>
@@ -188,11 +160,10 @@
 <tr>
 <td style="padding:18px 32px;background:#f8fafc;
            border-top:1px solid #e2e8f0;font-size:12px;color:#475569;">
-  Regards,<br>
-  <b>BusinessNext | ITSM Team</b><br><br>
-  <img src="cid:businessnext_logo"
-       alt="BusinessNext Logo"
-       style="height:34px;display:block;">
+Regards,<br>
+<b>BusinessNext | ITSM Team</b><br><br>
+<img src="cid:businessnext_logo" alt="BusinessNext Logo"
+     style="height:34px;display:block;">
 </td>
 </tr>
 
