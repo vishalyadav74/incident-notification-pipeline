@@ -18,7 +18,7 @@ font-family:Segoe UI,Arial,sans-serif;color:#0f172a;">
 <tr>
 <td style="background:#E01E7E;color:#ffffff;padding:22px 32px;">
   <h1 style="margin:0;font-size:20px;font-weight:700;line-height:1.3;">
-    🎉 {{ priority }} Incident | {{ title }}
+    🚨 {{ priority }} Incident | {{ title }}
   </h1>
   <div style="margin-top:8px;">
     {{ status_badge }}
@@ -160,26 +160,16 @@ style="border-collapse:collapse;font-size:14px;">
 </td>
 </tr>
 
-<!-- JOIN BRIDGE CALL (EXACT LOOK + BALANCED SPACING) -->
+<!-- JOIN BRIDGE CALL (LEFT + BOTTOM, CLICKABLE – OLD LOGIC) -->
 <tr>
-<td align="center" style="padding:32px 32px 20px;">
-  <a href="#" style="
-  background:#C62828;
-  color:#ffffff;
-  padding:12px 28px;
-  border-radius:24px;
-  font-size:13px;
-  font-weight:700;
-  text-decoration:none;
-  display:inline-block;">
-    📞&nbsp; JOIN BRIDGE CALL
-  </a>
+<td align="left" style="padding:24px 32px 16px;">
+  {{ bridge_section }}
 </td>
 </tr>
 
 <!-- FOOTER -->
 <tr>
-<td style="padding:12px 32px 20px;background:#ffffff;
+<td style="padding:12px 32px 24px;background:#ffffff;
 font-size:12px;color:#475569;">
 Regards,<br>
 <b>BusinessNext | ITSM Team</b><br><br>
