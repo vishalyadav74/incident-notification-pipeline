@@ -81,7 +81,6 @@ border-bottom:1px solid #e2e8f0;font-size:14px;">
 <tr>
 <td style="padding:0 32px 24px;">
 <div style="background:#ffffff;border-radius:14px;border:1px solid #e5e7eb;">
-
 <div style="padding:12px;text-align:center;">
 <span style="background:#1f2937;color:#ffffff;
 padding:6px 18px;border-radius:20px;
@@ -90,8 +89,7 @@ font-size:12px;font-weight:700;">
 </span>
 </div>
 
-<table width="100%" cellpadding="0" cellspacing="0"
-style="border-collapse:collapse;font-size:14px;">
+<table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:14px;">
 <tr>
 <th style="background:#F1F5F9;padding:10px;border:1px solid #cbd5e1;">Title</th>
 <td style="padding:10px;border:1px solid #cbd5e1;">{{ title }}</td>
@@ -100,12 +98,7 @@ style="border-collapse:collapse;font-size:14px;">
 </tr>
 <tr>
 <th style="background:#F1F5F9;padding:10px;border:1px solid #cbd5e1;">Case ID</th>
-<td style="padding:10px;border:1px solid #cbd5e1;">
-<a href="https://my.businessnext.com/app/businessnext/Home/Case?mdi=-1&caseId={{ case_id }}"
-style="color:#E01E7E;font-weight:700;text-decoration:none;" target="_blank">
-{{ case_id }}
-</a>
-</td>
+<td style="padding:10px;border:1px solid #cbd5e1;">{{ case_id }}</td>
 <th style="background:#F1F5F9;padding:10px;border:1px solid #cbd5e1;">End Time</th>
 <td style="padding:10px;border:1px solid #cbd5e1;">{{ end_time }}</td>
 </tr>
@@ -124,7 +117,6 @@ style="color:#E01E7E;font-weight:700;text-decoration:none;" target="_blank">
 <tr>
 <td style="padding:0 32px 20px;">
 <div style="background:#ffffff;border-radius:14px;border:1px solid #e5e7eb;">
-
 <div style="padding:12px;text-align:center;">
 <span style="background:#1f2937;color:#ffffff;
 padding:6px 18px;border-radius:20px;
@@ -133,16 +125,7 @@ font-size:12px;font-weight:700;">
 </span>
 </div>
 
-<table width="100%" cellpadding="0" cellspacing="0"
-style="border-collapse:collapse;font-size:14px;">
-<tr>
-<th style="background:#F1F5F9;padding:10px;border:1px solid #cbd5e1;">Teams Involved</th>
-<td colspan="3" style="padding:10px;border:1px solid #cbd5e1;">{{ teams }}</td>
-</tr>
-<tr>
-<th style="background:#F1F5F9;padding:10px;border:1px solid #cbd5e1;">Latest Update</th>
-<td colspan="3" style="padding:10px;border:1px solid #cbd5e1;">{{ latest_update }}</td>
-</tr>
+<table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:14px;">
 <tr>
 <th style="background:#F1F5F9;padding:10px;border:1px solid #cbd5e1;">RCA</th>
 <td colspan="3" style="padding:14px;border:1px solid #cbd5e1;background:#FFF7ED;">
@@ -160,16 +143,16 @@ style="border-collapse:collapse;font-size:14px;">
 </td>
 </tr>
 
-<!-- JOIN BRIDGE CALL (LEFT + BOTTOM, SPACING FIXED) -->
+<!-- JOIN BRIDGE CALL -->
 <tr>
-<td align="left" style="padding:16px 32px 8px;">
+<td align="left" style="padding:16px 32px 12px;">
   {{ bridge_section }}
 </td>
 </tr>
 
-<!-- FOOTER -->
+<!-- FOOTER (EVEN SPACING) -->
 <tr>
-<td style="padding:8px 32px 20px;background:#ffffff;
+<td style="padding:12px 32px 20px;background:#ffffff;
 font-size:12px;color:#475569;">
 Regards,<br>
 <b>BusinessNext | ITSM Team</b><br><br>
