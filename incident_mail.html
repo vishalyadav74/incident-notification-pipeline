@@ -2,188 +2,235 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Incident Notification</title>
 </head>
 
-<body style="margin:0;padding:0;background:#f1f5f9;
-font-family:Segoe UI,Arial,sans-serif;color:#0f172a;">
+<body style="margin:0;padding:0;background:#0f0f1a;font-family:'Segoe UI',Arial,sans-serif;color:#0f172a;">
 
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#f1f5f9;">
-<tr>
-<td align="center">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#0f0f1a;padding:32px 0;">
+<tr><td align="center">
 
-<table width="100%" cellpadding="0" cellspacing="0" style="background:#ffffff;">
+<table width="620" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:20px;overflow:hidden;box-shadow:0 25px 60px rgba(0,0,0,0.5);">
 
-<!-- HEADER (FIXED BORDER) -->
-<tr>
-<td style="background:#E01E7E;padding:0;">
-  <table width="100%" cellpadding="0" cellspacing="0">
-    <tr>
-      <td style="padding:22px 32px;color:#ffffff;">
-        <h1 style="margin:0;font-size:20px;font-weight:700;line-height:1.3;">
-          🚨 {{ priority }} Incident | {{ title }}
-        </h1>
-        <div style="margin-top:8px;">
-          {{ status_badge }}
-        </div>
-      </td>
-    </tr>
-    <!-- SOFT HEADER SEPARATOR -->
-    <tr>
-      <td height="6" style="background:#f8fafc;font-size:0;line-height:0;">
-        &nbsp;
-      </td>
-    </tr>
-  </table>
-</td>
-</tr>
+  <!-- TOP ACCENT BAR -->
+  <tr>
+    <td height="5" style="background:linear-gradient(90deg,#E01E7E 0%,#ff6b35 50%,#E01E7E 100%);font-size:0;line-height:0;">&nbsp;</td>
+  </tr>
 
-<!-- INTRO -->
-<tr>
-<td style="padding:16px 32px;background:#f8fafc;
-border-bottom:1px solid #e2e8f0;font-size:14px;">
-{{ intro_message }}
-</td>
-</tr>
+  <!-- HEADER -->
+  <tr>
+    <td style="background:#111827;padding:32px 36px 28px;">
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            <div style="font-size:11px;font-weight:700;letter-spacing:3px;color:#E01E7E;text-transform:uppercase;margin-bottom:10px;">
+              ⚡ BusinessNext ITSM · Incident Alert
+            </div>
+            <h1 style="margin:0 0 12px;font-size:22px;font-weight:800;color:#ffffff;line-height:1.35;letter-spacing:-0.3px;">
+              {{ title }}
+            </h1>
+            <div style="display:inline-block;">
+              {{ status_badge }}
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
 
-<!-- SUMMARY CARDS -->
-<tr>
-<td style="padding:20px 32px;">
-<table width="100%" cellpadding="0" cellspacing="0">
-<tr>
+  <!-- INTRO BANNER -->
+  <tr>
+    <td style="background:#fafafa;padding:20px 36px;border-bottom:1px solid #e5e7eb;font-size:14px;color:#374151;line-height:1.7;">
+      {{ intro_message }}
+    </td>
+  </tr>
 
-<td width="25%" style="padding:6px;">
-<div style="background:#FEF3C7;padding:16px;border-radius:14px;text-align:center;">
-⚠️<br>
-<div style="font-size:12px;color:#92400E;">Priority</div>
-<b style="color:#92400E;">{{ priority }}</b>
-</div>
-</td>
+  <!-- METRIC CARDS -->
+  <tr>
+    <td style="padding:28px 36px 0;">
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
 
-<td width="25%" style="padding:6px;">
-<div style="background:#FEE2E2;padding:16px;border-radius:14px;text-align:center;">
-🔥<br>
-<div style="font-size:12px;color:#991B1B;">Severity</div>
-<b style="color:#991B1B;">{{ severity }}</b>
-</div>
-</td>
+          <td width="25%" style="padding:0 6px 0 0;">
+            <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:16px;padding:18px 12px;text-align:center;">
+              <div style="font-size:22px;margin-bottom:6px;">⚠️</div>
+              <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#92400e;margin-bottom:4px;">Priority</div>
+              <div style="font-size:16px;font-weight:800;color:#78350f;">{{ priority }}</div>
+            </div>
+          </td>
 
-<td width="25%" style="padding:6px;">
-<div style="background:#FFF7ED;padding:16px;border-radius:14px;text-align:center;">
-⏳<br>
-<div style="font-size:12px;color:#9A3412;">Status</div>
-<b style="color:#9A3412;">{{ status }}</b>
-</div>
-</td>
+          <td width="25%" style="padding:0 6px;">
+            <div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:16px;padding:18px 12px;text-align:center;">
+              <div style="font-size:22px;margin-bottom:6px;">🔥</div>
+              <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#991b1b;margin-bottom:4px;">Severity</div>
+              <div style="font-size:16px;font-weight:800;color:#7f1d1d;">{{ severity }}</div>
+            </div>
+          </td>
 
-<td width="25%" style="padding:6px;">
-<div style="background:#F1F5F9;padding:16px;border-radius:14px;text-align:center;">
-👤<br>
-<div style="font-size:12px;color:#334155;">Reported By</div>
-<b>{{ reported_by }}</b>
-</div>
-</td>
+          <td width="25%" style="padding:0 6px;">
+            <div style="background:#fff7ed;border:1px solid #fdba74;border-radius:16px;padding:18px 12px;text-align:center;">
+              <div style="font-size:22px;margin-bottom:6px;">⏳</div>
+              <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#9a3412;margin-bottom:4px;">Status</div>
+              <div style="font-size:16px;font-weight:800;color:#7c2d12;">{{ status }}</div>
+            </div>
+          </td>
 
-</tr>
+          <td width="25%" style="padding:0 0 0 6px;">
+            <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:16px;padding:18px 12px;text-align:center;">
+              <div style="font-size:22px;margin-bottom:6px;">👤</div>
+              <div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#166534;margin-bottom:4px;">Reported By</div>
+              <div style="font-size:14px;font-weight:800;color:#14532d;">{{ reported_by }}</div>
+            </div>
+          </td>
+
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- INCIDENT DETAILS -->
+  <tr>
+    <td style="padding:24px 36px 0;">
+      <!-- Section Header -->
+      <div style="margin-bottom:14px;">
+        <span style="display:inline-block;background:#111827;color:#E01E7E;padding:7px 20px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;">
+          📌 &nbsp;Incident Details
+        </span>
+      </div>
+      <div style="border-radius:14px;border:1px solid #e5e7eb;overflow:hidden;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:13.5px;">
+          <tr>
+            <td width="22%" style="background:#f8fafc;padding:13px 16px;font-weight:700;color:#374151;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;">Title</td>
+            <td style="padding:13px 16px;color:#1f2937;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;">{{ title }}</td>
+            <td width="22%" style="background:#f8fafc;padding:13px 16px;font-weight:700;color:#374151;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;">Start Time</td>
+            <td style="padding:13px 16px;color:#1f2937;border-bottom:1px solid #e5e7eb;">{{ start_time }}</td>
+          </tr>
+          <tr>
+            <td style="background:#f8fafc;padding:13px 16px;font-weight:700;color:#374151;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;">Case ID</td>
+            <td style="padding:13px 16px;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;">
+              <span style="background:#e0e7ff;color:#3730a3;padding:3px 10px;border-radius:999px;font-weight:700;font-size:13px;">{{ case_id }}</span>
+            </td>
+            <td style="background:#f8fafc;padding:13px 16px;font-weight:700;color:#374151;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;">End Time</td>
+            <td style="padding:13px 16px;color:#1f2937;border-bottom:1px solid #e5e7eb;">{{ end_time }}</td>
+          </tr>
+          <tr>
+            <td style="background:#f8fafc;padding:13px 16px;font-weight:700;color:#374151;border-right:1px solid #e5e7eb;vertical-align:top;">Description</td>
+            <td colspan="3" style="padding:13px 16px;color:#374151;line-height:1.7;">{{ description }}</td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+
+  <!-- TEAMS INVOLVED -->
+  <tr>
+    <td style="padding:20px 36px 0;">
+      <div style="background:#f8fafc;border:1px solid #e5e7eb;border-radius:14px;padding:16px 20px;">
+        <span style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;">🏷 Teams Involved: </span>
+        <span style="font-size:13.5px;font-weight:600;color:#1f2937;">{{ teams }}</span>
+      </div>
+    </td>
+  </tr>
+
+  <!-- LATEST UPDATE -->
+  <tr>
+    <td style="padding:20px 36px 0;">
+      <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:14px;padding:18px 20px;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#1d4ed8;margin-bottom:8px;">📢 Latest Update</div>
+        <div style="font-size:14px;color:#1e3a8a;line-height:1.7;">{{ latest_update }}</div>
+      </div>
+    </td>
+  </tr>
+
+  <!-- RCA & RESOLUTION -->
+  <tr>
+    <td style="padding:20px 36px 0;">
+      <div style="margin-bottom:14px;">
+        <span style="display:inline-block;background:#111827;color:#E01E7E;padding:7px 20px;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;">
+          ⚙ &nbsp;Classification & Updates
+        </span>
+      </div>
+      <div style="border-radius:14px;border:1px solid #e5e7eb;overflow:hidden;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;font-size:13.5px;">
+          <tr>
+            <td width="20%" style="background:#f8fafc;padding:14px 16px;font-weight:700;color:#374151;border-right:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;vertical-align:top;">
+              🔍 RCA
+            </td>
+            <td style="padding:14px 16px;background:#fffbeb;border-bottom:1px solid #e5e7eb;color:#374151;line-height:1.7;">
+              {{ rca }}
+            </td>
+          </tr>
+          <tr>
+            <td style="background:#f8fafc;padding:14px 16px;font-weight:700;color:#374151;border-right:1px solid #e5e7eb;vertical-align:top;">
+              ✅ Resolution
+            </td>
+            <td style="padding:14px 16px;background:#f0fdf4;color:#374151;line-height:1.7;">
+              {{ resolution }}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </td>
+  </tr>
+
+  <!-- BRIDGE CALL -->
+  <tr>
+    <td style="padding:20px 36px 0;">
+      {{ bridge_section }}
+    </td>
+  </tr>
+
+  <!-- DIVIDER -->
+  <tr>
+    <td style="padding:28px 36px 0;">
+      <div style="height:1px;background:linear-gradient(90deg,transparent,#e5e7eb,transparent);"></div>
+    </td>
+  </tr>
+
+  <!-- FOOTER -->
+  <tr>
+    <td style="padding:24px 36px 32px;">
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td>
+            <div style="font-size:13px;color:#6b7280;line-height:1.8;">
+              This is an automated notification from the BusinessNext ITSM system.<br>
+              Please do not reply directly to this email.
+            </div>
+            <div style="margin-top:14px;font-size:13px;color:#374151;">
+              Regards,<br>
+              <strong style="color:#111827;">BusinessNext | ITSM Team</strong>
+            </div>
+            <div style="margin-top:16px;">
+              <img src="cid:businessnext_logo" alt="BusinessNext" style="height:32px;opacity:0.9;">
+            </div>
+          </td>
+          <td align="right" valign="bottom">
+            <div style="font-size:10px;color:#d1d5db;letter-spacing:1px;text-transform:uppercase;">Automated · ITSM · v2</div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- BOTTOM ACCENT -->
+  <tr>
+    <td height="5" style="background:linear-gradient(90deg,#E01E7E 0%,#ff6b35 50%,#E01E7E 100%);font-size:0;line-height:0;">&nbsp;</td>
+  </tr>
+
 </table>
-</td>
-</tr>
 
-<!-- INCIDENT DETAILS -->
-<tr>
-<td style="padding:0 32px 24px;">
-<div style="background:#ffffff;border-radius:14px;border:1px solid #e5e7eb;">
-<div style="padding:12px;text-align:center;">
-<span style="background:#1f2937;color:#ffffff;
-padding:6px 18px;border-radius:20px;
-font-size:12px;font-weight:700;">
-📌 Incident Details
-</span>
-</div>
-
-<table width="100%" cellpadding="0" cellspacing="0"
-style="border-collapse:collapse;font-size:14px;">
-<tr>
-<th style="background:#F1F5F9;padding:10px;border:1px solid #cbd5e1;">Title</th>
-<td style="padding:10px;border:1px solid #cbd5e1;">{{ title }}</td>
-<th style="background:#F1F5F9;padding:10px;border:1px solid #cbd5e1;">Start Time</th>
-<td style="padding:10px;border:1px solid #cbd5e1;">{{ start_time }}</td>
-</tr>
-<tr>
-<th style="background:#F1F5F9;padding:10px;border:1px solid #cbd5e1;">Case ID</th>
-<td style="padding:10px;border:1px solid #cbd5e1;">{{ case_id }}</td>
-<th style="background:#F1F5F9;padding:10px;border:1px solid #cbd5e1;">End Time</th>
-<td style="padding:10px;border:1px solid #cbd5e1;">{{ end_time }}</td>
-</tr>
-<tr>
-<th style="background:#F1F5F9;padding:10px;border:1px solid #cbd5e1;">Description</th>
-<td colspan="3" style="padding:10px;border:1px solid #cbd5e1;">
-{{ description }}
-</td>
-</tr>
+<!-- OUTER FOOTER NOTE -->
+<table width="620" cellpadding="0" cellspacing="0" style="margin-top:18px;">
+  <tr>
+    <td align="center" style="font-size:11px;color:#6b7280;padding:0 20px;">
+      © BusinessNext Technologies &nbsp;·&nbsp; Incident Management System &nbsp;·&nbsp; Confidential
+    </td>
+  </tr>
 </table>
-</div>
-</td>
-</tr>
 
-<!-- INCIDENT CLASSIFICATION -->
-<tr>
-<td style="padding:0 32px 20px;">
-<div style="background:#ffffff;border-radius:14px;border:1px solid #e5e7eb;">
-<div style="padding:12px;text-align:center;">
-<span style="background:#1f2937;color:#ffffff;
-padding:6px 18px;border-radius:20px;
-font-size:12px;font-weight:700;">
-⚙ Incident Classification & Updates
-</span>
-</div>
-
-<table width="100%" cellpadding="0" cellspacing="0"
-style="border-collapse:collapse;font-size:14px;">
-<tr>
-<th style="background:#F1F5F9;padding:10px;border:1px solid #cbd5e1;">RCA</th>
-<td colspan="3" style="padding:14px;border:1px solid #cbd5e1;background:#FFF7ED;">
-{{ rca }}
-</td>
-</tr>
-<tr>
-<th style="background:#F1F5F9;padding:10px;border:1px solid #cbd5e1;">Resolution</th>
-<td colspan="3" style="padding:14px;border:1px solid #cbd5e1;background:#ECFDF5;">
-{{ resolution }}
-</td>
-</tr>
-</table>
-</div>
-</td>
-</tr>
-
-<!-- JOIN BRIDGE CALL -->
-<tr>
-<td align="left" style="padding:16px 32px 0;">
-  {{ bridge_section }}
-</td>
-</tr>
-
-<!-- FIXED SPACER FOR EVEN GAP -->
-<tr>
-<td height="16" style="line-height:16px;font-size:0;">
-  &nbsp;
-</td>
-</tr>
-
-<!-- FOOTER -->
-<tr>
-<td style="padding:0 32px 20px;background:#ffffff;
-font-size:12px;color:#475569;">
-Regards,<br>
-<b>BusinessNext | ITSM Team</b><br><br>
-<img src="cid:businessnext_logo" alt="BusinessNext Logo" style="height:34px;">
-</td>
-</tr>
-
-</table>
-</td>
-</tr>
+</td></tr>
 </table>
 
 </body>
