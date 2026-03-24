@@ -6,37 +6,47 @@
   <title>Incident Notification</title>
 </head>
 
-<body style="margin:0;padding:0;background-color:#0d1117;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
+<!--
+  EMAIL LAYOUT PHILOSOPHY:
+  - White/light outer bg so it fits naturally inside Outlook's reading pane
+  - Full-width (100%) outer table, max-width constrained by inner table
+  - All styling via inline attributes + bgcolor (not CSS background)
+  - No border-radius, no box-shadow, no gradients — all stripped for Outlook
+  - Emojis replaced with small text symbols or omitted where they cause sizing issues
+-->
 
-<!-- OUTER WRAPPER -->
-<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#0d1117">
-<tr><td align="center" style="padding:32px 16px;">
+<body style="margin:0;padding:0;background-color:#f0f2f5;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
 
-  <!-- MAIN CARD -->
-  <table width="640" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="max-width:640px;">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#f0f2f5">
+<tr><td align="center" style="padding:24px 0;">
 
-    <!-- TOP COLOR BAR -->
+  <!-- ╔══════════════════════════════════════╗ -->
+  <!-- ║  MAIN EMAIL CARD  (max 680px wide)  ║ -->
+  <!-- ╚══════════════════════════════════════╝ -->
+  <table width="680" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="max-width:680px;border:1px solid #dde1e7;">
+
+    <!-- TOP BRAND BAR -->
     <tr>
-      <td bgcolor="#C91A6E" style="height:6px;font-size:0;line-height:0;padding:0;">&nbsp;</td>
+      <td bgcolor="#C91A6E" style="height:5px;font-size:0;line-height:0;padding:0;" colspan="1">&nbsp;</td>
     </tr>
 
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-    <!--  HEADER                    -->
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <!-- ══════════════════════════════════════ -->
+    <!--  HEADER BLOCK                          -->
+    <!-- ══════════════════════════════════════ -->
     <tr>
-      <td bgcolor="#12131a" style="padding:36px 40px 28px 40px;">
+      <td bgcolor="#1a1d2e" style="padding:30px 36px 26px 36px;">
 
-        <!-- EYEBROW PILL -->
-        <table border="0" cellpadding="0" cellspacing="0" style="margin-bottom:16px;">
+        <!-- EYEBROW LABEL -->
+        <table border="0" cellpadding="0" cellspacing="0" style="margin-bottom:14px;">
           <tr>
-            <td bgcolor="#C91A6E" style="padding:5px 16px;">
-              <span style="font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;color:#ffffff;letter-spacing:3px;text-transform:uppercase;">&#9889; BUSINESSNEXT ITSM &nbsp;|&nbsp; INCIDENT ALERT</span>
+            <td bgcolor="#C91A6E" style="padding:4px 14px;">
+              <span style="font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;color:#ffffff;letter-spacing:3px;text-transform:uppercase;">BUSINESSNEXT ITSM &nbsp;|&nbsp; INCIDENT ALERT</span>
             </td>
           </tr>
         </table>
 
-        <!-- INCIDENT TITLE -->
-        <p style="margin:0 0 16px 0;font-family:Georgia,'Times New Roman',serif;font-size:23px;font-weight:700;color:#ffffff;line-height:1.4;">{{ title }}</p>
+        <!-- TITLE -->
+        <p style="margin:0 0 14px 0;font-family:Georgia,'Times New Roman',serif;font-size:21px;font-weight:700;color:#ffffff;line-height:1.4;">{{ title }}</p>
 
         <!-- STATUS BADGE -->
         {{ status_badge }}
@@ -44,64 +54,72 @@
       </td>
     </tr>
 
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-    <!--  INTRO                      -->
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <!-- ══════════════════════════════════════ -->
+    <!--  INTRO                                 -->
+    <!-- ══════════════════════════════════════ -->
     <tr>
-      <td bgcolor="#f7f8fa" style="padding:20px 40px;border-bottom:2px solid #e2e8f0;">
-        <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#374151;line-height:1.8;">{{ intro_message }}</p>
+      <td bgcolor="#f9fafb" style="padding:20px 36px;border-bottom:2px solid #e5e7eb;">
+        <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13.5px;color:#374151;line-height:1.8;">{{ intro_message }}</p>
       </td>
     </tr>
 
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-    <!--  4 STAT TILES               -->
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <!-- ══════════════════════════════════════ -->
+    <!--  STAT CARDS ROW                        -->
+    <!-- ══════════════════════════════════════ -->
     <tr>
-      <td bgcolor="#ffffff" style="padding:28px 40px 0 40px;">
+      <td bgcolor="#ffffff" style="padding:24px 36px 0 36px;">
         <table width="100%" border="0" cellpadding="0" cellspacing="0">
           <tr valign="top">
 
             <!-- PRIORITY -->
-            <td width="24%" style="padding-right:6px;">
+            <td width="25%" style="padding-right:5px;">
               <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                <tr><td bgcolor="#fef3c7" style="border-top:4px solid #f59e0b;padding:16px 8px;text-align:center;">
-                  <p style="margin:0 0 6px 0;font-family:Arial,sans-serif;font-size:18px;">&#9888;&#65039;</p>
-                  <p style="margin:0 0 5px 0;font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#92400e;">Priority</p>
-                  <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight:900;color:#78350f;">{{ priority }}</p>
-                </td></tr>
+                <tr>
+                  <td bgcolor="#fef3c7" style="border-top:3px solid #f59e0b;padding:14px 8px 14px 8px;text-align:center;">
+                    <p style="margin:0 0 4px 0;font-family:Arial,Helvetica,sans-serif;font-size:16px;color:#d97706;">!</p>
+                    <p style="margin:0 0 4px 0;font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#92400e;">Priority</p>
+                    <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:20px;font-weight:900;color:#78350f;">{{ priority }}</p>
+                  </td>
+                </tr>
               </table>
             </td>
 
             <!-- SEVERITY -->
-            <td width="24%" style="padding-left:3px;padding-right:3px;">
+            <td width="25%" style="padding-left:3px;padding-right:3px;">
               <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                <tr><td bgcolor="#fee2e2" style="border-top:4px solid #ef4444;padding:16px 8px;text-align:center;">
-                  <p style="margin:0 0 6px 0;font-family:Arial,sans-serif;font-size:18px;">&#128293;</p>
-                  <p style="margin:0 0 5px 0;font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#991b1b;">Severity</p>
-                  <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:18px;font-weight:900;color:#7f1d1d;">{{ severity }}</p>
-                </td></tr>
+                <tr>
+                  <td bgcolor="#fee2e2" style="border-top:3px solid #ef4444;padding:14px 8px 14px 8px;text-align:center;">
+                    <p style="margin:0 0 4px 0;font-family:Arial,Helvetica,sans-serif;font-size:16px;color:#dc2626;">&#9650;</p>
+                    <p style="margin:0 0 4px 0;font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#991b1b;">Severity</p>
+                    <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:900;color:#7f1d1d;">{{ severity }}</p>
+                  </td>
+                </tr>
               </table>
             </td>
 
             <!-- STATUS -->
-            <td width="24%" style="padding-left:3px;padding-right:3px;">
+            <td width="25%" style="padding-left:3px;padding-right:3px;">
               <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                <tr><td bgcolor="#fff7ed" style="border-top:4px solid #f97316;padding:16px 8px;text-align:center;">
-                  <p style="margin:0 0 6px 0;font-family:Arial,sans-serif;font-size:18px;">&#9203;</p>
-                  <p style="margin:0 0 5px 0;font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#9a3412;">Status</p>
-                  <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:900;color:#7c2d12;">{{ status }}</p>
-                </td></tr>
+                <tr>
+                  <td bgcolor="#fff7ed" style="border-top:3px solid #f97316;padding:14px 8px 14px 8px;text-align:center;">
+                    <p style="margin:0 0 4px 0;font-family:Arial,Helvetica,sans-serif;font-size:16px;color:#ea580c;">&#9711;</p>
+                    <p style="margin:0 0 4px 0;font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#9a3412;">Status</p>
+                    <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:900;color:#7c2d12;">{{ status }}</p>
+                  </td>
+                </tr>
               </table>
             </td>
 
             <!-- REPORTED BY -->
-            <td width="28%" style="padding-left:6px;">
+            <td width="25%" style="padding-left:5px;">
               <table width="100%" border="0" cellpadding="0" cellspacing="0">
-                <tr><td bgcolor="#f0fdf4" style="border-top:4px solid #22c55e;padding:16px 8px;text-align:center;">
-                  <p style="margin:0 0 6px 0;font-family:Arial,sans-serif;font-size:18px;">&#128100;</p>
-                  <p style="margin:0 0 5px 0;font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#166534;">Reported By</p>
-                  <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:900;color:#14532d;">{{ reported_by }}</p>
-                </td></tr>
+                <tr>
+                  <td bgcolor="#f0fdf4" style="border-top:3px solid #22c55e;padding:14px 8px 14px 8px;text-align:center;">
+                    <p style="margin:0 0 4px 0;font-family:Arial,Helvetica,sans-serif;font-size:16px;color:#16a34a;">&#9679;</p>
+                    <p style="margin:0 0 4px 0;font-family:Arial,Helvetica,sans-serif;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#166534;">Reported By</p>
+                    <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:15px;font-weight:900;color:#14532d;">{{ reported_by }}</p>
+                  </td>
+                </tr>
               </table>
             </td>
 
@@ -110,79 +128,82 @@
       </td>
     </tr>
 
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-    <!--  SECTION: INCIDENT DETAILS  -->
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <!-- ══════════════════════════════════════ -->
+    <!--  SECTION LABEL: INCIDENT DETAILS       -->
+    <!-- ══════════════════════════════════════ -->
     <tr>
-      <td style="padding:28px 40px 0 40px;">
+      <td style="padding:24px 36px 10px 36px;">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr>
-            <td bgcolor="#12131a" style="padding:7px 18px;">
-              <span style="font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#C91A6E;">&#128205;&nbsp; INCIDENT DETAILS</span>
+            <td bgcolor="#1a1d2e" style="padding:6px 16px;">
+              <span style="font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#C91A6E;">INCIDENT DETAILS</span>
             </td>
           </tr>
         </table>
       </td>
     </tr>
 
+    <!-- DETAILS TABLE -->
     <tr>
-      <td style="padding:12px 40px 0 40px;">
+      <td style="padding:0 36px;">
         <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
 
           <tr>
-            <td width="20%" bgcolor="#f8fafc" style="padding:13px 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#1e293b;border:1px solid #dde3ed;">Title</td>
-            <td width="30%" bgcolor="#ffffff" style="padding:13px 14px;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#1f2937;line-height:1.5;border:1px solid #dde3ed;">{{ title }}</td>
-            <td width="20%" bgcolor="#f8fafc" style="padding:13px 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#1e293b;border:1px solid #dde3ed;">Start Time</td>
-            <td width="30%" bgcolor="#ffffff" style="padding:13px 14px;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#1f2937;border:1px solid #dde3ed;">{{ start_time }}</td>
+            <td width="18%" bgcolor="#f3f4f6" style="padding:11px 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#374151;border:1px solid #e5e7eb;">Title</td>
+            <td width="32%" bgcolor="#ffffff" style="padding:11px 14px;font-family:Arial,Helvetica,sans-serif;font-size:12.5px;color:#111827;line-height:1.5;border:1px solid #e5e7eb;">{{ title }}</td>
+            <td width="18%" bgcolor="#f3f4f6" style="padding:11px 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#374151;border:1px solid #e5e7eb;">Start Time</td>
+            <td width="32%" bgcolor="#ffffff" style="padding:11px 14px;font-family:Arial,Helvetica,sans-serif;font-size:12.5px;color:#111827;border:1px solid #e5e7eb;">{{ start_time }}</td>
           </tr>
 
           <tr>
-            <td bgcolor="#f8fafc" style="padding:13px 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#1e293b;border:1px solid #dde3ed;">Case ID</td>
-            <td bgcolor="#ffffff" style="padding:10px 14px;border:1px solid #dde3ed;">
+            <td bgcolor="#f3f4f6" style="padding:11px 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#374151;border:1px solid #e5e7eb;">Case ID</td>
+            <td bgcolor="#ffffff" style="padding:9px 14px;border:1px solid #e5e7eb;">
               <table border="0" cellpadding="0" cellspacing="0">
-                <tr><td bgcolor="#e0e7ff" style="padding:4px 12px;">
-                  <span style="font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;color:#3730a3;">{{ case_id }}</span>
-                </td></tr>
+                <tr>
+                  <td bgcolor="#e0e7ff" style="padding:3px 11px;">
+                    <span style="font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:700;color:#3730a3;">{{ case_id }}</span>
+                  </td>
+                </tr>
               </table>
             </td>
-            <td bgcolor="#f8fafc" style="padding:13px 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#1e293b;border:1px solid #dde3ed;">End Time</td>
-            <td bgcolor="#ffffff" style="padding:13px 14px;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#1f2937;border:1px solid #dde3ed;">{{ end_time }}</td>
+            <td bgcolor="#f3f4f6" style="padding:11px 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#374151;border:1px solid #e5e7eb;">End Time</td>
+            <td bgcolor="#ffffff" style="padding:11px 14px;font-family:Arial,Helvetica,sans-serif;font-size:12.5px;color:#111827;border:1px solid #e5e7eb;">{{ end_time }}</td>
           </tr>
 
           <tr>
-            <td bgcolor="#f8fafc" style="padding:13px 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#1e293b;border:1px solid #dde3ed;vertical-align:top;">Description</td>
-            <td colspan="3" bgcolor="#ffffff" style="padding:13px 14px;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#374151;line-height:1.75;border:1px solid #dde3ed;">{{ description }}</td>
+            <td bgcolor="#f3f4f6" style="padding:11px 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#374151;border:1px solid #e5e7eb;vertical-align:top;">Description</td>
+            <td colspan="3" bgcolor="#ffffff" style="padding:11px 14px;font-family:Arial,Helvetica,sans-serif;font-size:12.5px;color:#374151;line-height:1.75;border:1px solid #e5e7eb;">{{ description }}</td>
           </tr>
 
         </table>
       </td>
     </tr>
 
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-    <!--  TEAMS INVOLVED             -->
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <!-- ══════════════════════════════════════ -->
+    <!--  TEAMS INVOLVED                        -->
+    <!-- ══════════════════════════════════════ -->
     <tr>
-      <td style="padding:14px 40px 0 40px;">
+      <td style="padding:14px 36px 0 36px;">
         <table width="100%" border="0" cellpadding="0" cellspacing="0">
           <tr>
-            <td bgcolor="#f1f5f9" style="border-left:4px solid #C91A6E;padding:14px 18px;">
-              <span style="font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#64748b;">&#127991; TEAMS INVOLVED &nbsp;&nbsp;&nbsp;</span>
-              <span style="font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:700;color:#0f172a;">{{ teams }}</span>
+            <td bgcolor="#f8fafc" style="border-left:4px solid #C91A6E;padding:12px 16px;">
+              <span style="font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7280;">TEAMS INVOLVED &nbsp;&nbsp;</span>
+              <span style="font-family:Arial,Helvetica,sans-serif;font-size:13px;font-weight:700;color:#111827;">{{ teams }}</span>
             </td>
           </tr>
         </table>
       </td>
     </tr>
 
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-    <!--  LATEST UPDATE              -->
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <!-- ══════════════════════════════════════ -->
+    <!--  LATEST UPDATE                         -->
+    <!-- ══════════════════════════════════════ -->
     <tr>
-      <td style="padding:12px 40px 0 40px;">
+      <td style="padding:10px 36px 0 36px;">
         <table width="100%" border="0" cellpadding="0" cellspacing="0">
           <tr>
-            <td bgcolor="#eff6ff" style="border-left:4px solid #3b82f6;padding:16px 20px;">
-              <p style="margin:0 0 7px 0;font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#1d4ed8;">&#128226; LATEST UPDATE</p>
+            <td bgcolor="#eff6ff" style="border-left:4px solid #3b82f6;padding:14px 18px;">
+              <p style="margin:0 0 6px 0;font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:#1d4ed8;">LATEST UPDATE</p>
               <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#1e3a8a;line-height:1.75;">{{ latest_update }}</p>
             </td>
           </tr>
@@ -190,98 +211,91 @@
       </td>
     </tr>
 
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-    <!--  SECTION: CLASSIFICATION    -->
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <!-- ══════════════════════════════════════ -->
+    <!--  SECTION LABEL: CLASSIFICATION         -->
+    <!-- ══════════════════════════════════════ -->
     <tr>
-      <td style="padding:24px 40px 0 40px;">
+      <td style="padding:20px 36px 10px 36px;">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr>
-            <td bgcolor="#12131a" style="padding:7px 18px;">
-              <span style="font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#C91A6E;">&#9881; CLASSIFICATION &amp; RESOLUTION</span>
+            <td bgcolor="#1a1d2e" style="padding:6px 16px;">
+              <span style="font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#C91A6E;">CLASSIFICATION &amp; RESOLUTION</span>
             </td>
           </tr>
         </table>
       </td>
     </tr>
 
+    <!-- RCA + RESOLUTION TABLE -->
     <tr>
-      <td style="padding:12px 40px 0 40px;">
+      <td style="padding:0 36px;">
         <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
 
           <tr>
-            <td width="18%" bgcolor="#f8fafc" style="padding:14px 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#1e293b;border:1px solid #dde3ed;vertical-align:top;">
-              &#128269; RCA
-            </td>
-            <td bgcolor="#fffbeb" style="padding:14px 16px;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#374151;line-height:1.75;border:1px solid #dde3ed;">
-              {{ rca }}
-            </td>
+            <td width="16%" bgcolor="#f3f4f6" style="padding:13px 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#374151;border:1px solid #e5e7eb;vertical-align:top;">RCA</td>
+            <td bgcolor="#fffbeb" style="padding:13px 16px;font-family:Arial,Helvetica,sans-serif;font-size:12.5px;color:#374151;line-height:1.75;border:1px solid #e5e7eb;">{{ rca }}</td>
           </tr>
 
           <tr>
-            <td bgcolor="#f8fafc" style="padding:14px 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#1e293b;border:1px solid #dde3ed;vertical-align:top;">
-              &#10003; Resolution
-            </td>
-            <td bgcolor="#f0fdf4" style="padding:14px 16px;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#374151;line-height:1.75;border:1px solid #dde3ed;">
-              {{ resolution }}
-            </td>
+            <td bgcolor="#f3f4f6" style="padding:13px 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;color:#374151;border:1px solid #e5e7eb;vertical-align:top;">Resolution</td>
+            <td bgcolor="#f0fdf4" style="padding:13px 16px;font-family:Arial,Helvetica,sans-serif;font-size:12.5px;color:#374151;line-height:1.75;border:1px solid #e5e7eb;">{{ resolution }}</td>
           </tr>
 
         </table>
       </td>
     </tr>
 
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-    <!--  BRIDGE CALL                -->
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <!-- ══════════════════════════════════════ -->
+    <!--  BRIDGE CALL                           -->
+    <!-- ══════════════════════════════════════ -->
     <tr>
-      <td style="padding:18px 40px 0 40px;">
+      <td style="padding:16px 36px 0 36px;">
         {{ bridge_section }}
       </td>
     </tr>
 
-    <!-- DIVIDER -->
+    <!-- THIN DIVIDER -->
     <tr>
-      <td style="padding:26px 40px 0 40px;">
+      <td style="padding:22px 36px 0 36px;">
         <table width="100%" border="0" cellpadding="0" cellspacing="0">
-          <tr><td bgcolor="#e2e8f0" style="height:1px;font-size:0;line-height:0;">&nbsp;</td></tr>
+          <tr><td bgcolor="#e5e7eb" style="height:1px;font-size:0;line-height:0;">&nbsp;</td></tr>
         </table>
       </td>
     </tr>
 
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
-    <!--  FOOTER                     -->
-    <!-- ━━━━━━━━━━━━━━━━━━━━━━━━━━ -->
+    <!-- ══════════════════════════════════════ -->
+    <!--  FOOTER                                -->
+    <!-- ══════════════════════════════════════ -->
     <tr>
-      <td style="padding:22px 40px 30px 40px;">
+      <td style="padding:20px 36px 26px 36px;">
         <table width="100%" border="0" cellpadding="0" cellspacing="0">
           <tr valign="bottom">
             <td>
-              <p style="margin:0 0 3px 0;font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#94a3b8;">This is an automated notification. Please do not reply to this email.</p>
-              <p style="margin:0 0 14px 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#374151;">Regards, &nbsp;<strong style="color:#12131a;">BusinessNext | ITSM Team</strong></p>
+              <p style="margin:0 0 2px 0;font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#9ca3af;">This is an automated notification. Please do not reply to this email.</p>
+              <p style="margin:0 0 12px 0;font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#374151;">Regards, &nbsp;<strong style="color:#111827;">BusinessNext | ITSM Team</strong></p>
               <img src="cid:businessnext_logo" alt="BusinessNext" height="28" style="display:block;border:0;" />
             </td>
             <td align="right" valign="bottom">
-              <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:8px;color:#cbd5e1;letter-spacing:2px;text-transform:uppercase;">ITSM &#183; AUTOMATED &#183; CONFIDENTIAL</p>
+              <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:8px;color:#d1d5db;letter-spacing:2px;text-transform:uppercase;">ITSM &nbsp;&#183;&nbsp; AUTOMATED &nbsp;&#183;&nbsp; CONFIDENTIAL</p>
             </td>
           </tr>
         </table>
       </td>
     </tr>
 
-    <!-- BOTTOM COLOR BAR -->
+    <!-- BOTTOM BRAND BAR -->
     <tr>
-      <td bgcolor="#C91A6E" style="height:6px;font-size:0;line-height:0;padding:0;">&nbsp;</td>
+      <td bgcolor="#C91A6E" style="height:5px;font-size:0;line-height:0;padding:0;">&nbsp;</td>
     </tr>
 
   </table>
   <!-- /MAIN CARD -->
 
-  <!-- OUTER LEGAL NOTE -->
-  <table width="640" border="0" cellpadding="0" cellspacing="0" style="max-width:640px;margin-top:16px;">
+  <!-- LEGAL NOTE BELOW CARD -->
+  <table width="680" border="0" cellpadding="0" cellspacing="0" style="max-width:680px;margin-top:12px;">
     <tr>
       <td align="center">
-        <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#4b5563;letter-spacing:0.5px;">
+        <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#6b7280;">
           &copy; BusinessNext Technologies &nbsp;&#183;&nbsp; Incident Management System &nbsp;&#183;&nbsp; Confidential
         </p>
       </td>
